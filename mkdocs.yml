@@ -1,0 +1,103 @@
+site_name: SeekTHink
+site_url: https://walteryangg.github.io/Mkdocs
+site_author: Walter
+site_description: 积思求索
+
+theme:
+  name: material
+ # custom_dir: overrides
+  language: zh
+  features:
+    - navigation.tabs # 当启用标签页时，顶级部分将在标题下方的菜单层中呈现
+    - navigation.top # 回到页面顶部按钮
+    - search.suggest
+    - search.highlight
+    - navigation.instant  # 为了在使用即时导航时在网络连接较慢的情况下提供更好的用户体验，可以启用进度指示器
+    - navigation.instant.progress    
+    #- toc.integrate # (1)! # 页面中右上角的页面导航集成到左侧导航侧边栏
+    - content.code.copy  # md代码块复制
+  palette:
+    # ----- 亮色模式 -----
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: 切换深色模式
+
+    # ----- 暗色模式 -----
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: 切换亮色模式
+
+    # ----- 自定义主题色 -----
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/palette
+        name: 蓝色主题
+
+    - scheme: default
+      primary: green
+      accent: green
+      toggle:
+        icon: material/palette
+        name: 绿色主题
+
+    - scheme: default
+      primary: deep purple
+      accent: deep purple
+      toggle:
+        icon: material/palette
+        name: 紫色主题
+
+    - scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/palette
+        name: 红色主题
+    
+    - scheme: default
+      primary: grey
+      accent: grey
+      toggle:
+        icon: material/palette
+        name: 灰色主题
+
+    - scheme: default
+      primary: cyan
+      accent: cyan
+      toggle:
+        icon: material/palette
+        name: cyan主题
+    
+
+plugins:
+  - search
+  - awesome-pages
+  - tags:
+  - blog:
+      post_dir: blog/posts
+      post_url_format: "{date}/{slug}"
+      authors_profiles: true
+      archive: true
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+      
+extra_css:
+  - styles/extra.css
+
+extra:
+  generator: false #隐藏页脚网站生成器声明
+
+copyright: Copyright &copy; 2022 - 2025 Walter&积思求索
