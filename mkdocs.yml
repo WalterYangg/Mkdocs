@@ -4,8 +4,8 @@ site_author: Walter
 site_description: 积思求索
 
 theme:
-  name: material
- # custom_dir: overrides
+  name: null  #material
+  custom_dir: custom_theme/
   language: zh
   features:
     - navigation.tabs # 当启用标签页时，顶级部分将在标题下方的菜单层中呈现
@@ -80,6 +80,7 @@ theme:
 plugins:
   - search
   - awesome-pages
+  - monorepo    
   - tags:
   - blog:
       post_dir: blog/posts
