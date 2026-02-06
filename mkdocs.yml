@@ -80,7 +80,6 @@ theme:
 plugins:
   - search
   - awesome-pages
-  - monorepo    
   - tags:
   - blog:
       post_dir: blog/posts
