@@ -1,5 +1,11 @@
 mkdocs
-mkdocs-material
-mkdocs-awesome-pages-plugin
-mkdocs-tag-plugin
-mkdocs-blogging-plugin
+mkdocs-awesome-pages-plugin             
+mkdocs-get-deps                       
+mkdocs-git-committers-plugin-2           
+mkdocs-git-revision-date-localized-plugin 
+mkdocs-macros-plugin                      
+mkdocs-material                           
+mkdocs-material-extensions              
+mkdocs-minify-plugin                   
+mkdocs-redirects                       
+mkdocs-rss-plugin                      
