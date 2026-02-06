@@ -12,7 +12,7 @@ theme:
     - navigation.top
     - search.suggest
     - search.highlight
-    - navigation.instant
+   #- navigation.instant
     - content.code.copy
 
   palette:
@@ -100,7 +100,6 @@ extra_css:
   - styles/homepage.css
 
 extra_javascript:
-  - javascripts/instant-nav-fix.js
   - javascripts/homepage.js
   
 extra:
