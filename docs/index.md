@@ -16,24 +16,25 @@ hide:
     <button class="settings-btn" id="settingsToggle">
         <i class="fas fa-cog"></i>
     </button>
-
+    
     <!-- 主要内容 -->
     <main class="main-content">
         <div class="container">
             <!-- 搜索区域 -->
             <section class="search-section">
+                <h1 class="search-title">  </h1>  <!-- 首页标题-->
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="搜索或输入网址..." autocomplete="off">
                 </div>
             </section>
-
+    
             <!-- 分类区域 -->
             <section class="categories-section">
                 <div class="categories" id="categories">
                     <!-- 分类按钮将通过JS动态生成 -->
                 </div>
             </section>
-
+    
             <!-- 链接网格 -->
             <section class="links-section" id="linksSection">
                 <div class="links-grid" id="linksGrid">
@@ -42,14 +43,14 @@ hide:
             </section>
         </div>
     </main>
-
+    
     <!-- 设置面板 -->
     <div class="settings-panel" id="settingsPanel">
         <div class="settings-header">
             <h3 class="settings-title">设置</h3>
             <button class="close-settings" id="closeSettings">×</button>
         </div>
-
+    
         <div class="settings-section">
             <h3>背景设置</h3>
             <div class="background-options" id="backgroundOptions">
@@ -60,13 +61,13 @@ hide:
                 <div class="bg-option preset-5" data-bg="#ffffff" title="纯白背景"></div>
                 <div class="bg-option preset-6" data-bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" title="渐变背景3"></div>
             </div>
-
+    
             <div class="custom-bg-input">
                 <input type="text" id="customBgInput" placeholder="输入图片URL...">
                 <button id="applyCustomBg">应用</button>
             </div>
         </div>
-
+    
         <div class="settings-section">
             <h3>透明度设置</h3>
             <div class="slider-container">
@@ -76,7 +77,7 @@ hide:
                 </div>
                 <input type="range" min="0" max="100" value="30" class="slider" id="bgOpacitySlider">
             </div>
-
+    
             <div class="slider-container">
                 <div class="slider-label">
                     <span>UI透明度</span>
@@ -84,7 +85,7 @@ hide:
                 </div>
                 <input type="range" min="50" max="100" value="95" class="slider" id="opacitySlider">
             </div>
-
+    
             <div class="slider-container">
                 <div class="slider-label">
                     <span>模糊效果</span>
@@ -93,7 +94,7 @@ hide:
                 <input type="range" min="0" max="20" value="8" class="slider" id="blurSlider">
             </div>
         </div>
-
+    
         <button class="reset-btn" id="resetSettings">重置设置</button>
     </div>
 </div>
@@ -103,7 +104,7 @@ hide:
 // 立即执行的主页初始化函数
 (function() {
     console.log('主页功能初始化开始...');
-    
+
     // 1. 添加主页标识
     document.body.classList.add('is-homepage');
     
@@ -161,7 +162,7 @@ hide:
             { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.hiquq.com:11888/walter', category: 'panels' }
         ]
     };
-
+    
     // 3. 图标映射
     const iconMap = {
         'default': 'fas fa-globe',
@@ -196,7 +197,7 @@ hide:
         'servicespanel': 'fas fa-server',
         'homeboard': 'fas fa-tachometer-alt'
     };
-
+    
     // 4. 获取DOM元素
     const categoriesContainer = document.getElementById('categories');
     const linksGrid = document.getElementById('linksGrid');
@@ -216,12 +217,12 @@ hide:
     const bgOpacitySlider = document.getElementById('bgOpacitySlider');
     const bgOpacityValue = document.getElementById('bgOpacityValue');
     const backgroundLayer = document.getElementById('backgroundLayer');
-
+    
     // 5. 状态变量
     let currentCategory = '';
     let searchKeyword = '';
     let isAnimating = false;
-
+    
     // 6. 渲染分类函数
     function renderCategories() {
         if (!categoriesContainer) return;
@@ -236,13 +237,13 @@ hide:
             categoriesContainer.appendChild(button);
         });
     }
-
+    
     // 7. 获取图标HTML
     function getIconHTML(linkId) {
         const iconClass = iconMap[linkId] || iconMap['default'];
         return `<i class="${iconClass}"></i>`;
     }
-
+    
     // 8. 渲染链接
     function renderLinks(animate = true) {
         if (!linksGrid) return;
@@ -264,7 +265,7 @@ hide:
             renderLinksContent();
         }
     }
-
+    
     // 9. 渲染链接内容
     function renderLinksContent() {
         if (!linksGrid) return;
@@ -316,20 +317,20 @@ hide:
             linksGrid.appendChild(emptyState);
         }
     }
-
+    
     // 10. 设置面板功能
     function openSettingsPanel() {
         if (settingsPanel) {
             settingsPanel.classList.add('active');
         }
     }
-
+    
     function closeSettingsPanel() {
         if (settingsPanel) {
             settingsPanel.classList.remove('active');
         }
     }
-
+    
     // 11. 设置事件监听器
     function setupEventListeners() {
         // 分类点击事件
@@ -451,7 +452,7 @@ hide:
             }
         });
     }
-
+    
     // 12. 页面加载后执行
     function initHomepage() {
         console.log('初始化主页功能');
@@ -465,7 +466,7 @@ hide:
         
         console.log('主页功能初始化完成');
     }
-
+    
     // 13. 执行初始化
     // 等待页面完全加载
     if (document.readyState === 'loading') {
