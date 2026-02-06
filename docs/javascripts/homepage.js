@@ -9,11 +9,36 @@ window.initHomepage = function() {
         return;
     }
     
+    // 重置状态
+    currentCategory = '';
+    searchKeyword = '';
+    isAnimating = false;
+    
+    // 清空搜索框
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    // 移除所有分类的active类
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
     // 原有的初始化逻辑
     if (typeof initPage === 'function') {
+        // 先移除之前的事件监听器，避免重复绑定
+        removeEventListeners();
+        // 重新初始化
         initPage();
     }
 };
+
+// 添加移除事件监听器的函数
+function removeEventListeners() {
+    // 由于我们使用的是事件委托，所以这里主要是重置内部状态
+    // 分类按钮的事件委托不需要移除
+    console.log('移除旧的事件监听器');
+}
 
 const siteData = {
     categories: [
@@ -118,25 +143,10 @@ const iconMap = {
 };
 
 // 主应用逻辑 - 原第二个 <script> 内容
-// DOM元素
-const categoriesContainer = document.getElementById('categories');
-const linksGrid = document.getElementById('linksGrid');
-const linksSection = document.getElementById('linksSection');
-const searchInput = document.getElementById('searchInput');
-const settingsToggle = document.getElementById('settingsToggle');
-const settingsPanel = document.getElementById('settingsPanel');
-const closeSettings = document.getElementById('closeSettings');
-const backgroundOptions = document.getElementById('backgroundOptions');
-const customBgInput = document.getElementById('customBgInput');
-const applyCustomBg = document.getElementById('applyCustomBg');
-const opacitySlider = document.getElementById('opacitySlider');
-const opacityValue = document.getElementById('opacityValue');
-const blurSlider = document.getElementById('blurSlider');
-const blurValue = document.getElementById('blurValue');
-const resetSettings = document.getElementById('resetSettings');
-const bgOpacitySlider = document.getElementById('bgOpacitySlider');
-const bgOpacityValue = document.getElementById('bgOpacityValue');
-const backgroundLayer = document.getElementById('backgroundLayer');
+// DOM元素（这些会在 initPage 中重新获取）
+let categoriesContainer, linksGrid, linksSection, searchInput, settingsToggle, settingsPanel, closeSettings;
+let backgroundOptions, customBgInput, applyCustomBg, opacitySlider, opacityValue, blurSlider, blurValue, resetSettings;
+let bgOpacitySlider, bgOpacityValue, backgroundLayer;
 
 // 当前选中的分类
 let currentCategory = '';
@@ -147,15 +157,46 @@ let isAnimating = false;
 
 // 初始化页面
 function initPage() {
+    // 重新获取DOM元素引用（instant navigation后DOM会重新创建）
+    categoriesContainer = document.getElementById('categories');
+    linksGrid = document.getElementById('linksGrid');
+    linksSection = document.getElementById('linksSection');
+    searchInput = document.getElementById('searchInput');
+    settingsToggle = document.getElementById('settingsToggle');
+    settingsPanel = document.getElementById('settingsPanel');
+    closeSettings = document.getElementById('closeSettings');
+    backgroundOptions = document.getElementById('backgroundOptions');
+    customBgInput = document.getElementById('customBgInput');
+    applyCustomBg = document.getElementById('applyCustomBg');
+    opacitySlider = document.getElementById('opacitySlider');
+    opacityValue = document.getElementById('opacityValue');
+    blurSlider = document.getElementById('blurSlider');
+    blurValue = document.getElementById('blurValue');
+    resetSettings = document.getElementById('resetSettings');
+    bgOpacitySlider = document.getElementById('bgOpacitySlider');
+    bgOpacityValue = document.getElementById('bgOpacityValue');
+    backgroundLayer = document.getElementById('backgroundLayer');
+    
+    console.log('重新获取DOM元素引用');
+    
+    // 渲染UI
     renderCategories();
     renderLinks(false); // 初始渲染不使用动画
     setupEventListeners();
     loadUserPreferences();
     syncWithMaterialTheme();
+    
+    // 确保主页元素可见
+    if (categoriesContainer && linksSection) {
+        categoriesContainer.style.display = 'flex';
+        linksSection.style.display = 'block';
+    }
 }
 
 // 渲染分类
 function renderCategories() {
+    if (!categoriesContainer) return;
+    
     categoriesContainer.innerHTML = '';
     
     siteData.categories.forEach(category => {
@@ -184,6 +225,7 @@ function getIconHTML(linkId) {
 
 // 渲染链接
 function renderLinks(animate = true) {
+    if (!linksGrid) return;
     if (isAnimating) return;
     
     if (animate) {
@@ -205,6 +247,8 @@ function renderLinks(animate = true) {
 
 // 渲染链接内容
 function renderLinksContent() {
+    if (!linksGrid) return;
+    
     linksGrid.innerHTML = '';
     
     // 过滤链接
@@ -217,10 +261,12 @@ function renderLinksContent() {
     });
     
     // 显示或隐藏链接区域
-    if (currentCategory || searchKeyword) {
-        linksSection.classList.add('active');
-    } else {
-        linksSection.classList.remove('active');
+    if (linksSection) {
+        if (currentCategory || searchKeyword) {
+            linksSection.classList.add('active');
+        } else {
+            linksSection.classList.remove('active');
+        }
     }
     
     // 渲染链接卡片
@@ -253,167 +299,215 @@ function renderLinksContent() {
 
 // 设置面板功能
 function openSettingsPanel() {
-    settingsPanel.classList.add('active');
+    if (settingsPanel) {
+        settingsPanel.classList.add('active');
+    }
 }
 
 function closeSettingsPanel() {
-    settingsPanel.classList.remove('active');
+    if (settingsPanel) {
+        settingsPanel.classList.remove('active');
+    }
 }
 
 // 设置事件监听器
 function setupEventListeners() {
-    // 分类点击事件
-    categoriesContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('category-btn') && !isAnimating) {
-            const newCategory = e.target.dataset.category;
-            
-            // 移除所有active类
-            document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // 如果点击的是当前已选中的分类，则取消选择
-            if (newCategory === currentCategory) {
-                currentCategory = '';
-            } else {
-                currentCategory = newCategory;
-                e.target.classList.add('active');
-            }
-            
-            renderLinks();
-        }
-    });
+    // 分类点击事件 - 使用事件委托，避免重复绑定
+    if (categoriesContainer) {
+        categoriesContainer.addEventListener('click', handleCategoryClick);
+    }
     
     // 搜索输入事件
-    searchInput.addEventListener('input', (e) => {
-        searchKeyword = e.target.value.trim();
-        renderLinks();
-    });
+    if (searchInput) {
+        searchInput.addEventListener('input', handleSearchInput);
+    }
     
     // 设置面板事件
-    settingsToggle.addEventListener('click', openSettingsPanel);
-    closeSettings.addEventListener('click', closeSettingsPanel);
+    if (settingsToggle) {
+        settingsToggle.addEventListener('click', openSettingsPanel);
+    }
+    
+    if (closeSettings) {
+        closeSettings.addEventListener('click', closeSettingsPanel);
+    }
     
     // 背景选择事件
-    backgroundOptions.addEventListener('click', (e) => {
-        if (e.target.classList.contains('bg-option')) {
-            // 移除所有active类
-            document.querySelectorAll('.bg-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            // 添加active类到当前选项
-            e.target.classList.add('active');
-            
-            // 应用背景
-            const bgValue = e.target.dataset.bg;
-            applyBackground(bgValue);
-            
-            // 保存到本地存储
-            saveUserPreference('background', bgValue);
-        }
-    });
+    if (backgroundOptions) {
+        backgroundOptions.addEventListener('click', handleBackgroundSelect);
+    }
     
     // 自定义背景应用
-    applyCustomBg.addEventListener('click', () => {
-        const bgUrl = customBgInput.value.trim();
-        if (bgUrl) {
-            // 移除所有active类
-            document.querySelectorAll('.bg-option').forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            // 应用自定义背景
-            applyBackground(`url('${bgUrl}')`);
-            
-            // 保存到本地存储
-            saveUserPreference('background', `url('${bgUrl}')`);
-            
-            // 清空输入框
-            customBgInput.value = '';
-        }
-    });
+    if (applyCustomBg) {
+        applyCustomBg.addEventListener('click', handleCustomBgApply);
+    }
     
     // 背景透明度滑块
-    bgOpacitySlider.addEventListener('input', (e) => {
-        const value = e.target.value;
-        bgOpacityValue.textContent = `${value}%`;
-        
-        // 更新CSS变量
-        const opacity = value / 100;
-        document.documentElement.style.setProperty('--background-opacity', opacity);
-        
-        // 保存到本地存储
-        saveUserPreference('bgOpacity', value);
-    });
+    if (bgOpacitySlider) {
+        bgOpacitySlider.addEventListener('input', handleBgOpacityChange);
+    }
     
     // UI透明度滑块
-    opacitySlider.addEventListener('input', (e) => {
-        const value = e.target.value;
-        opacityValue.textContent = `${value}%`;
-        
-        // 更新CSS变量
-        const opacity = value / 100;
-        updateUIOpacity(opacity);
-        
-        // 保存到本地存储
-        saveUserPreference('opacity', value);
-    });
+    if (opacitySlider) {
+        opacitySlider.addEventListener('input', handleOpacityChange);
+    }
     
     // 模糊效果滑块
-    blurSlider.addEventListener('input', (e) => {
-        const value = e.target.value;
-        blurValue.textContent = `${value}px`;
-        
-        // 更新CSS变量
-        document.documentElement.style.setProperty('--blur-intensity', `${value}px`);
-        
-        // 保存到本地存储
-        saveUserPreference('blur', value);
-    });
+    if (blurSlider) {
+        blurSlider.addEventListener('input', handleBlurChange);
+    }
     
     // 重置设置
-    resetSettings.addEventListener('click', resetUserPreferences);
+    if (resetSettings) {
+        resetSettings.addEventListener('click', resetUserPreferences);
+    }
     
     // 搜索框回车事件 - 使用必应搜索
-    searchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            const value = searchInput.value.trim();
-            if (value) {
-                // 检查是否是有效的URL
-                let url = value;
-                if (!/^https?:\/\//i.test(value)) {
-                    // 如果不是URL，使用必应搜索
-                    url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
-                }
-                
-                // 简单的URL验证
-                try {
-                    new URL(url);
-                    window.open(url, '_blank');
-                    searchInput.value = '';
-                } catch (err) {
-                    // 如果不是有效的URL，使用必应搜索
-                    url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
-                    window.open(url, '_blank');
-                    searchInput.value = '';
-                }
-            }
-        }
-    });
+    if (searchInput) {
+        searchInput.addEventListener('keydown', handleSearchKeydown);
+    }
     
     // 点击设置面板外部关闭面板
-    document.addEventListener('click', (e) => {
-        if (settingsPanel.classList.contains('active') && 
-            !settingsPanel.contains(e.target) && 
-            e.target !== settingsToggle) {
-            closeSettingsPanel();
+    document.addEventListener('click', handleDocumentClick);
+}
+
+// 事件处理函数（避免匿名函数，便于移除）
+function handleCategoryClick(e) {
+    if (e.target.classList.contains('category-btn') && !isAnimating) {
+        const newCategory = e.target.dataset.category;
+        
+        // 移除所有active类
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // 如果点击的是当前已选中的分类，则取消选择
+        if (newCategory === currentCategory) {
+            currentCategory = '';
+        } else {
+            currentCategory = newCategory;
+            e.target.classList.add('active');
         }
-    });
+        
+        renderLinks();
+    }
+}
+
+function handleSearchInput(e) {
+    searchKeyword = e.target.value.trim();
+    renderLinks();
+}
+
+function handleBackgroundSelect(e) {
+    if (e.target.classList.contains('bg-option')) {
+        // 移除所有active类
+        document.querySelectorAll('.bg-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // 添加active类到当前选项
+        e.target.classList.add('active');
+        
+        // 应用背景
+        const bgValue = e.target.dataset.bg;
+        applyBackground(bgValue);
+        
+        // 保存到本地存储
+        saveUserPreference('background', bgValue);
+    }
+}
+
+function handleCustomBgApply() {
+    const bgUrl = customBgInput.value.trim();
+    if (bgUrl) {
+        // 移除所有active类
+        document.querySelectorAll('.bg-option').forEach(option => {
+            option.classList.remove('active');
+        });
+        
+        // 应用自定义背景
+        applyBackground(`url('${bgUrl}')`);
+        
+        // 保存到本地存储
+        saveUserPreference('background', `url('${bgUrl}')`);
+        
+        // 清空输入框
+        customBgInput.value = '';
+    }
+}
+
+function handleBgOpacityChange(e) {
+    const value = e.target.value;
+    bgOpacityValue.textContent = `${value}%`;
+    
+    // 更新CSS变量
+    const opacity = value / 100;
+    document.documentElement.style.setProperty('--background-opacity', opacity);
+    
+    // 保存到本地存储
+    saveUserPreference('bgOpacity', value);
+}
+
+function handleOpacityChange(e) {
+    const value = e.target.value;
+    opacityValue.textContent = `${value}%`;
+    
+    // 更新CSS变量
+    const opacity = value / 100;
+    updateUIOpacity(opacity);
+    
+    // 保存到本地存储
+    saveUserPreference('opacity', value);
+}
+
+function handleBlurChange(e) {
+    const value = e.target.value;
+    blurValue.textContent = `${value}px`;
+    
+    // 更新CSS变量
+    document.documentElement.style.setProperty('--blur-intensity', `${value}px`);
+    
+    // 保存到本地存储
+    saveUserPreference('blur', value);
+}
+
+function handleSearchKeydown(e) {
+    if (e.key === 'Enter') {
+        const value = searchInput.value.trim();
+        if (value) {
+            // 检查是否是有效的URL
+            let url = value;
+            if (!/^https?:\/\//i.test(value)) {
+                // 如果不是URL，使用必应搜索
+                url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
+            }
+            
+            // 简单的URL验证
+            try {
+                new URL(url);
+                window.open(url, '_blank');
+                searchInput.value = '';
+            } catch (err) {
+                // 如果不是有效的URL，使用必应搜索
+                url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
+                window.open(url, '_blank');
+                searchInput.value = '';
+            }
+        }
+    }
+}
+
+function handleDocumentClick(e) {
+    if (settingsPanel && settingsPanel.classList.contains('active') && 
+        !settingsPanel.contains(e.target) && 
+        e.target !== settingsToggle) {
+        closeSettingsPanel();
+    }
 }
 
 // 应用背景
 function applyBackground(bgValue) {
+    if (!backgroundLayer) return;
+    
     if (bgValue === 'none') {
         backgroundLayer.style.backgroundImage = '';
     } else {
@@ -438,21 +532,23 @@ function loadUserPreferences() {
     const preferences = JSON.parse(localStorage.getItem('navPreferences') || '{}');
     
     // 加载背景设置
-    if (preferences.background) {
+    if (preferences.background && backgroundLayer) {
         applyBackground(preferences.background);
         
         // 找到对应的背景选项并激活
-        const bgOptions = document.querySelectorAll('.bg-option');
-        for (let option of bgOptions) {
-            if (option.dataset.bg === preferences.background) {
-                option.classList.add('active');
-                break;
+        if (backgroundOptions) {
+            const bgOptions = backgroundOptions.querySelectorAll('.bg-option');
+            for (let option of bgOptions) {
+                if (option.dataset.bg === preferences.background) {
+                    option.classList.add('active');
+                    break;
+                }
             }
         }
     }
     
     // 加载背景透明度设置
-    if (preferences.bgOpacity) {
+    if (preferences.bgOpacity && bgOpacitySlider && bgOpacityValue) {
         bgOpacitySlider.value = preferences.bgOpacity;
         bgOpacityValue.textContent = `${preferences.bgOpacity}%`;
         
@@ -461,7 +557,7 @@ function loadUserPreferences() {
     }
     
     // 加载透明度设置
-    if (preferences.opacity) {
+    if (preferences.opacity && opacitySlider && opacityValue) {
         opacitySlider.value = preferences.opacity;
         opacityValue.textContent = `${preferences.opacity}%`;
         
@@ -471,7 +567,7 @@ function loadUserPreferences() {
     }
     
     // 加载模糊效果设置
-    if (preferences.blur) {
+    if (preferences.blur && blurSlider && blurValue) {
         blurSlider.value = preferences.blur;
         blurValue.textContent = `${preferences.blur}px`;
         document.documentElement.style.setProperty('--blur-intensity', `${preferences.blur}px`);
@@ -502,10 +598,7 @@ function syncWithMaterialTheme() {
     });
 }
 
-// 初始化页面
-document.addEventListener('DOMContentLoaded', initPage);
-
-// 原有的初始化代码
+// 原来的DOMContentLoaded事件监听器保持不变
 document.addEventListener('DOMContentLoaded', function() {
     console.log('homepage.js: DOMContentLoaded');
     window.initHomepage();
@@ -514,9 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // 监听自定义事件
 document.addEventListener('homepage-init', function() {
     console.log('homepage.js: homepage-init 事件触发');
-    if (typeof initPage === 'function') {
-        initPage();
-    }
+    window.initHomepage();
 });
 
 // 监听 navigation 事件
@@ -524,4 +615,3 @@ document.addEventListener('navigation', function() {
     console.log('homepage.js: navigation 事件触发');
     setTimeout(window.initHomepage, 100);
 });
-
