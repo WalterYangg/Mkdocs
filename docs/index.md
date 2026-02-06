@@ -30,7 +30,6 @@ hide:
 
             <!-- 分类区域 -->
             <section class="categories-section">
-                <h2 class="section-title">快速分类</h2>
                 <div class="categories" id="categories">
                     <!-- 分类按钮将通过JS动态生成 -->
                 </div>
@@ -38,7 +37,6 @@ hide:
 
             <!-- 链接网格 -->
             <section class="links-section" id="linksSection">
-                <h2 class="section-title">网站链接</h2>
                 <div class="links-grid" id="linksGrid">
                     <!-- 链接由JS动态生成 -->
                 </div>
