@@ -92,7 +92,8 @@ markdown_extensions:
   - codehilite
   - footnotes
   - toc:
-      permalink: true
+      permalink: true 
+  - md_in_html #添加以下扩展来支持原生HTML
       
 extra_css:
   - styles/extra.css
