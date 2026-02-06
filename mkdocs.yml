@@ -13,8 +13,8 @@ theme:
     - search.suggest
     - search.highlight
     - navigation.instant
-    # - navigation.instant.progress  # 可以先禁用进度条测试
     - content.code.copy
+
   palette:
     # ----- 亮色模式 -----
     - scheme: default

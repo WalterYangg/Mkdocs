@@ -5,10 +5,9 @@ hide:
   - toc
 ---
 
-<!-- 添加FontAwesome图标库 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div class="homepage-container">
+<div class="homepage-container" markdown="0">
     <!-- 背景层 -->
     <div class="background-layer" id="backgroundLayer"></div>
 
@@ -24,7 +23,7 @@ hide:
             <section class="search-section">
                 <h1 class="search-title">SeekThink - 导航页</h1>
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="搜索或输入网址...">
+                    <input type="text" id="searchInput" placeholder="搜索或输入网址..." autocomplete="off">
                 </div>
             </section>
             
@@ -56,10 +55,12 @@ hide:
         <div class="settings-section">
             <h3>背景设置</h3>
             <div class="background-options" id="backgroundOptions">
-                <div class="bg-option preset-1 active" data-bg="none"></div>
-                <div class="bg-option preset-2" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"></div>
-                <div class="bg-option preset-3" data-bg="linear-gradient(135deg, #e3e9f7 0%, #ffffff 100%)"></div>
-                <div class="bg-option preset-4" data-bg="#f8f9fa"></div>
+                <div class="bg-option preset-1 active" data-bg="none" title="无背景"></div>
+                <div class="bg-option preset-2" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" title="渐变背景1"></div>
+                <div class="bg-option preset-3" data-bg="linear-gradient(135deg, #e3e9f7 0%, #ffffff 100%)" title="渐变背景2"></div>
+                <div class="bg-option preset-4" data-bg="#f8f9fa" title="浅灰背景"></div>
+                <div class="bg-option preset-5" data-bg="#ffffff" title="纯白背景"></div>
+                <div class="bg-option preset-6" data-bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" title="渐变背景3"></div>
             </div>
             
             <div class="custom-bg-input">
@@ -98,3 +99,12 @@ hide:
         <button class="reset-btn" id="resetSettings">重置设置</button>
     </div>
 </div>
+
+<!-- 重要：添加主页标识 -->
+<script>
+// 当页面加载时，添加主页标识
+if (document.querySelector('.homepage-container')) {
+    document.body.classList.add('is-homepage');
+    console.log('主页标识已添加');
+}
+</script>
