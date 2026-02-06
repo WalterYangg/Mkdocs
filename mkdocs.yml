@@ -96,12 +96,12 @@ markdown_extensions:
       permalink: true
       
 extra_css:
-  - /styles/extra.css
-  - /styles/homepage.css
+  - styles/extra.css
+  - styles/homepage.css
 
 extra_javascript:
-  - /javascripts/instant-nav-fix.js
-  - /javascripts/homepage.js
+  - javascripts/instant-nav-fix.js
+  - javascripts/homepage.js
   
 extra:
   generator: false #隐藏页脚网站生成器声明

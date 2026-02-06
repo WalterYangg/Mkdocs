@@ -48,14 +48,53 @@ hide:
 
     <!-- 设置面板 -->
     <div class="settings-panel" id="settingsPanel">
-        <!-- 设置面板内容保持不变 -->
+        <div class="settings-header">
+            <h3 class="settings-title">设置</h3>
+            <button class="close-settings" id="closeSettings">×</button>
+        </div>
+        
+        <div class="settings-section">
+            <h3>背景设置</h3>
+            <div class="background-options" id="backgroundOptions">
+                <div class="bg-option preset-1 active" data-bg="none"></div>
+                <div class="bg-option preset-2" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"></div>
+                <div class="bg-option preset-3" data-bg="linear-gradient(135deg, #e3e9f7 0%, #ffffff 100%)"></div>
+                <div class="bg-option preset-4" data-bg="#f8f9fa"></div>
+            </div>
+            
+            <div class="custom-bg-input">
+                <input type="text" id="customBgInput" placeholder="输入图片URL...">
+                <button id="applyCustomBg">应用</button>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h3>透明度设置</h3>
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>背景透明度</span>
+                    <span id="bgOpacityValue">30%</span>
+                </div>
+                <input type="range" min="0" max="100" value="30" class="slider" id="bgOpacitySlider">
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>UI透明度</span>
+                    <span id="opacityValue">95%</span>
+                </div>
+                <input type="range" min="50" max="100" value="95" class="slider" id="opacitySlider">
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-label">
+                    <span>模糊效果</span>
+                    <span id="blurValue">8px</span>
+                </div>
+                <input type="range" min="0" max="20" value="8" class="slider" id="blurSlider">
+            </div>
+        </div>
+        
+        <button class="reset-btn" id="resetSettings">重置设置</button>
     </div>
 </div>
-
-<script>
-// 添加主页标识
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.classList.add('is-homepage');
-    console.log('主页标识已添加');
-});
-</script>
