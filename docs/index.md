@@ -1,9 +1,18 @@
 ---
 title: 主页uidg
 hide:
-  - navigation   # 隐藏左侧sidebar
-  - toc          # 隐藏右侧TOC
+  - navigation
+  - toc
 ---
+
+<div style="display: contents;"> <!-- 新增的包装容器，不影响样式 -->
+<!-- 背景层 -->
+<div class="background-layer" id="backgroundLayer"></div>
+
+<!-- 设置按钮 - 右上角 -->
+<button class="settings-btn" id="settingsToggle">
+    <i class="fas fa-cog"></i>
+</button>
 
 <!-- 背景层 -->
 <div class="background-layer" id="backgroundLayer"></div>
@@ -99,3 +108,8 @@ hide:
         </button>
     </div>
 </div>
+
+</div> <!-- 结束包装容器 -->
+
+
+

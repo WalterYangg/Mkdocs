@@ -88,12 +88,13 @@ plugins:
       archive: true
 
 markdown_extensions:
+  - attr_list # 可选但推荐，用于支持更丰富的属性
+  - md_in_html # 核心：允许混合Markdown与HTML
   - admonition
   - codehilite
   - footnotes
   - toc:
-      permalink: true 
-  - md_in_html #添加以下扩展来支持原生HTML
+      permalink: true
       
 extra_css:
   - styles/extra.css
