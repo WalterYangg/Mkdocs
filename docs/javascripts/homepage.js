@@ -1,4 +1,20 @@
 // 网站数据配置 - 原 <script id="siteData"> 内容
+// 全局主页初始化函数
+window.initHomepage = function() {
+    console.log('调用全局主页初始化');
+    
+    // 检查是否是主页
+    if (!document.body.classList.contains('is-homepage')) {
+        console.log('不是主页，跳过初始化');
+        return;
+    }
+    
+    // 原有的初始化逻辑
+    if (typeof initPage === 'function') {
+        initPage();
+    }
+};
+
 const siteData = {
     categories: [
         { id: 'myapps', name: '我的应用' },
@@ -489,5 +505,23 @@ function syncWithMaterialTheme() {
 // 初始化页面
 document.addEventListener('DOMContentLoaded', initPage);
 
+// 原有的初始化代码
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('homepage.js: DOMContentLoaded');
+    window.initHomepage();
+});
 
+// 监听自定义事件
+document.addEventListener('homepage-init', function() {
+    console.log('homepage.js: homepage-init 事件触发');
+    if (typeof initPage === 'function') {
+        initPage();
+    }
+});
+
+// 监听 navigation 事件
+document.addEventListener('navigation', function() {
+    console.log('homepage.js: navigation 事件触发');
+    setTimeout(window.initHomepage, 100);
+});
 

@@ -8,14 +8,13 @@ theme:
   #custom_dir: custom_theme/
   language: zh
   features:
-    - navigation.tabs # 当启用标签页时，顶级部分将在标题下方的菜单层中呈现
-    - navigation.top # 回到页面顶部按钮
+    - navigation.tabs
+    - navigation.top
     - search.suggest
     - search.highlight
-    - navigation.instant  # 为了在使用即时导航时在网络连接较慢的情况下提供更好的用户体验，可以启用进度指示器
-    - navigation.instant.progress    
-    #- toc.integrate # (1)! # 页面中右上角的页面导航集成到左侧导航侧边栏
-    - content.code.copy  # md代码块复制
+    - navigation.instant
+    # - navigation.instant.progress  # 可以先禁用进度条测试
+    - content.code.copy
   palette:
     # ----- 亮色模式 -----
     - scheme: default
@@ -101,7 +100,8 @@ extra_css:
   - styles/homepage.css 
 
 extra_javascript:
-  - javascripts/homepage.js
+  - javascripts/instant-nav-fix.js  # 先加载修复脚本
+  - javascripts/homepage.js         # 再加载主页脚本
   
 extra:
   generator: false #隐藏页脚网站生成器声明

@@ -1,3 +1,21 @@
+/* Instant Navigation 修复 */
+.settings-btn,
+.settings-panel {
+    display: none;
+}
+
+/* 只在主页显示 */
+body.is-homepage .settings-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+body.is-homepage .settings-panel {
+    display: block !important;
+    visibility: visible !important;
+}
+
 :root {
     /* Material Design 颜色变量 - 与MkDocs默认主题匹配 */
     --md-primary-fg-color: #4051b5;
@@ -558,3 +576,24 @@ body {
 
 
 
+/* 确保设置按钮在 instant navigation 中保持正确位置 */
+body[data-md-component="instant"] .settings-btn {
+    position: fixed !important;
+    z-index: 1000 !important;
+}
+
+/* 防止 Material 主题隐藏我们的元素 */
+.md-content .settings-btn,
+.md-content .settings-panel {
+    display: inherit !important;
+}
+
+/* 处理 Material 主题的过渡动画 */
+.md-content {
+    position: relative;
+}
+
+/* 确保背景层在主题切换时保持 */
+.background-layer {
+    transition: background-image 0.3s ease, opacity 0.3s ease;
+}
