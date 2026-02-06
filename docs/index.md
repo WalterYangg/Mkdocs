@@ -1,5 +1,5 @@
 ---
-title: 主页
+title: 主页uidg
 hide:
   - navigation   # 隐藏左侧sidebar
   - toc          # 隐藏右侧TOC
