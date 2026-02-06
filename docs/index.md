@@ -4,7 +4,6 @@ hide:
   - navigation   # ← 隐藏左侧sidebar
   - toc          # ← 隐藏右侧TOC
 ---
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
