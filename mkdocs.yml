@@ -96,7 +96,11 @@ markdown_extensions:
       
 extra_css:
   - styles/extra.css
+  - styles/homepage.css 
 
+extra_javascript:
+  - javascripts/homepage.js
+  
 extra:
   generator: false #隐藏页脚网站生成器声明
 
