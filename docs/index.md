@@ -22,7 +22,6 @@ hide:
         <div class="container">
             <!-- 搜索区域 -->
             <section class="search-section">
-                <h1 class="search-title">SeekThink - 导航页</h1>
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="搜索或输入网址..." autocomplete="off">
                 </div>
