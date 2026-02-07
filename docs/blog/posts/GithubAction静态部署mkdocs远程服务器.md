@@ -138,7 +138,7 @@ mkdocs-rss-plugin
 
 1. **登录并进入主页**：访问 [GitHub](https://github.com/) 并登录。点击页面右上角的 **+** 号图标，然后选择 **New repository**。
 2. **填写仓库信息**：
-   - **Repository name**：必填。为您的仓库起一个名字（例如 `my-mkdocs-site`）。
+   - **Repository name**：必填。为您的仓库起一个名字（例如 `Mkdocs`）。
    - **Description**：选填。简短描述您的项目。
 3. **选择仓库类型**：
    - **Public**：公开，任何人都能看到。
@@ -165,7 +165,7 @@ sudo apt install git -y
 在你的终端中，执行以下命令来设置全局的用户名和邮箱（请将示例信息替换为你自己的）：
 
 ```
-git config --global user.email "walteryangg@example.com"
+git config --global user.email "walter.yangw@google.com"
 git config --global user.name "walteryangg"
 ```
 
@@ -178,7 +178,7 @@ git config --global user.name "walteryangg"
 
 **如果尚未初始化**
 
-根据你提供的路径，你的项目目录很可能就是 `/opt/1panel/apps/mkdocs-material/mkdocs/data`。
+回到你的项目文件目录 `./mkdocs-material/mkdocs/data`。
 
 检查并初始化Git仓库：
 
@@ -190,29 +190,21 @@ git init
 
 #### GitHub 连接仓库的认证密钥
 
-#### **HTTPS 个人访问令牌**(不太推荐，容易443端口出现问题)
+#### **HTTPS 个人访问令牌**(不太推荐，容易出现443端口问题)
 
 创建GitHub个人访问令牌的位置和操作路径非常固定。请登录你的GitHub账户后，按照下图所示的路径操作，并重点关注箭头标识的关键步骤：
 
-```
-flowchart LR
-    subgraph A[操作路径指引]
-        A1[登录GitHub<br>点击右上角头像] --> A2[在下拉菜单中<br>点击“Settings”] --> A3[在左侧边栏底部<br>点击“Developer settings”] --> A4[在新页面左侧<br>点击“Personal access tokens”<br>→ “Tokens (classic)”] --> A5[点击“Generate new token”<br>→ “Generate new token (classic)”]
-    end
-
-    subgraph B[关键配置与生成]
-        direction TB
-        B5[填写 Note<br>（为令牌命名）] --> B6[选择 Expiration<br>（建议设置有效期）] --> B7[在 Select scopes 中<br>务必勾选“repo”权限] --> B8[点击“Generate token”<br>立即复制并妥善保存令牌]
-    end
-
-    A5 --> B5
-```
+1. 登录 GitHub → Settings → Developer settings
+2. 选择 **Personal access tokens** → **Tokens (classic)**
+3. 点击 **Generate new token** → **Generate new token (classic)**
+4. 设置：
+   - Note: `Mkdocs Local Access`
+   - Expiration: 建议选择 **90 days** 或 **No expiration**
+   - 勾选权限：`repo`（全选），`workflow`，`gist`（可选）
 
 #### 创建令牌时的关键细节
 
-在上图第7步选择权限（`Select scopes`）时，为了保证能正常推送代码，
-
-对于你正在进行的 MkDocs 自动化部署，为了确保一切顺利，我建议你在生成令牌时，**同时勾选以下两个核心权限**：
+在上图第7步选择权限（`Select scopes`）时，为了保证能正常推送代码，我建议你在生成令牌时，**同时勾选以下两个核心权限**：
 
 | 权限范围       | 是否必须     | 作用                                                         |
 | :------------- | :----------- | :----------------------------------------------------------- |
@@ -227,7 +219,13 @@ flowchart LR
 
 #### 令牌的使用方法
 
-**首次推送到GitHub，触发自动化**执行推送，这会触发工作流运行：
+回到本地环境，**首次推送到GitHub，触发自动化**执行推送，这会触发工作流运行：
+
+```
+git push https://github.com/WalterYangg/Mkdocs.git main
+# 用户名：WalterYangg
+# 密码：粘贴你的token
+```
 
 系统会提示你输入GitHub的用户名和**个人访问令牌**（在GitHub的 Settings -> Developer settings -> Personal access tokens 里创建，需要有 `repo` 权限）。
 
@@ -247,7 +245,7 @@ flowchart LR
    bash
 
    ```
-   ssh-keygen -t ed25519 -C "your_email@example.com"
+   ssh-keygen -t ed25519 -C "walteryangg@gmail.com"
    ```
 
    一路按回车使用默认路径和空密码即可。
@@ -261,6 +259,10 @@ flowchart LR
 3. **将本地仓库远程地址切换为SSH格式**：
 
    ```
+   # 查看当前远程地址
+   git remote -v
+   
+   # 如果是 HTTPS，切换到 SSH
    git remote set-url origin git@github.com:walteryangg/MKdocs.git
    ```
    
@@ -269,8 +271,6 @@ flowchart LR
    ```
    ssh -T git@github.com  # 测试连接，预期看到成功认证的欢迎语
    ```
-
-
 
 ### 7、提交工作流文件：
 
@@ -313,11 +313,11 @@ git push -u origin main
   3. 访问 `https://<用户名>.github.io/<仓库名>` 查看线上站点。
 - **调试关键**：工作流失败时，**仔细阅读Actions日志中的错误信息**，它是解决问题的直接依据。常见错误包括：依赖未安装、配置文件错误、插件缺失、路径不正确等。
 
-### 推送项目到 `main` 分支
+### 推送全部项目文件到 `main` 分支
 
 ```
-git add mkdocs.yml
-git commit -m "添加依赖文件 requirements.txt"
+git add .
+git commit -m "静态部署mkdocs全部文件"
 git push origin main
 ```
 
@@ -342,7 +342,7 @@ git push origin main
 3. **在MkDocs项目中固化域名配置（关键）**
    为防止GitHub Pages设置被重置，你需要在项目 `docs` 目录下手动创建一个名为 **`CNAME`** 的文件（无扩展名），内容就是你的一行域名。例如：
 
-```
+```CNAME
 home.sth.ink
 ```
 
@@ -378,6 +378,6 @@ site_url: https://home.sth.ink
 │  └────workflows
 │       └── deploy.yml    # 自动化工作流配置文件
 │
-└── requirements.txt      # Python依赖列表
+└── requirements.txt      # Python依赖插件列表
 
 ```
