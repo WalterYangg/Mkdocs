@@ -8,6 +8,8 @@ categories:
 author: Walter
 ---
 
+mkdocs服务器静态部署和维护的全过程
+
 <!-- more -->
 
 # Github Action静态部署mkdocs远程服务器
@@ -352,9 +354,72 @@ home.sth.ink
 site_url: https://home.sth.ink
 ```
 
+## 六、本地维护
 
+如果需要在其他设备上继续维护项目，编辑和更新。
 
-### 六、项目结构
+### 1. **克隆源代码仓库到本地**
+
+**首先需要克隆包含 MkDocs 源文件的 GitHub 仓库：**
+
+```
+# 打开 PowerShell 或 CMD
+# 克隆你的仓库
+git clone https://github.com/你的用户名/你的仓库名.git
+cd 你的仓库名
+```
+
+### **2.设置本地 MkDocs 环境**
+
+**安装 Python 和 MkDocs**
+
+```
+# 检查 Python 版本（需要 Python 3.7+）
+python --version
+
+# 安装 MkDocs 和相关插件
+pip install mkdocs
+
+----------------------------------------------------
+#以下如果不需要启动本地预览服务器（mkdocs serve）可以不用装 
+pip install mkdocs-material  # 如果使用 material 主题
+pip install mkdocs-awesome-pages-plugin  # 如果有使用其他插件
+
+# 根据项目的 requirements.txt 安装所有依赖
+pip install -r requirements.txt
+```
+
+### **3.编辑更新流程**
+
+```
+# 1. 拉取最新代码
+git pull origin main
+
+# 2. 编辑 Markdown 文件（在 docs/ 目录下）
+# 使用 VS Code 或其他编辑器
+code docs/your-article.md
+
+# 3. 本地预览(纯编辑模式不需要)
+mkdocs serve
+
+# 4. 保存更改
+git add . 
+git commit -m "更新文章内容"
+
+# 5. 推送到 GitHub
+git push origin main
+
+# 6. GitHub Actions 会自动构建部署
+```
+
+## **七、注意事项**
+
+1. **配置文件同步**：确保本地 `mkdocs.yml` 与远程一致
+2. **插件版本**：本地预览时保持本地插件版本与 CI/CD 中一致
+3. **图片资源**：如果使用相对路径，图片应放在规定目录下
+4. **.gitignore**：不要提交 `site/` 目录到仓库
+
+## 八、项目结构
 
 ``` 
 ├── docs        # Markdown文档源文件目录
