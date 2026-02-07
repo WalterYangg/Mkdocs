@@ -122,7 +122,7 @@ hide:
             // 我的应用
             { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
             { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
-            { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
+            { id: 'openlist', name: 'OpenList', url: 'http://101.132.126.236:5244/', category: 'myapps' },
             { id: 'lib', name: 'Lib', url: 'http://lib.hiquq.com/', category: 'myapps' },
             { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.hiquq.com/web/', category: 'myapps' },
             { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
