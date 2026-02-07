@@ -1,6 +1,6 @@
 ---
 title: Github Action静态部署mkdocs远程服务器
-date: 2026-02-06
+date: 2026-2-6
 tags:
   - mkdocs
 categories:
@@ -102,6 +102,22 @@ echo "mkdocs
 mkdocs-material" > requirements.txt
 ```
 
+编辑`requirements.txt`文件`vim requirements.txt   `添加构建服务需要用到的依赖或插件
+
+```
+mkdocs
+mkdocs-awesome-pages-plugin             
+mkdocs-get-deps                       
+mkdocs-git-committers-plugin-2           
+mkdocs-git-revision-date-localized-plugin 
+mkdocs-macros-plugin                      
+mkdocs-material                           
+mkdocs-material-extensions              
+mkdocs-minify-plugin                   
+mkdocs-redirects                       
+mkdocs-rss-plugin                      
+```
+
 
 
 ## 三、GIT代码管理与仓库配置
@@ -114,7 +130,7 @@ mkdocs-material" > requirements.txt
   - Git 权限错误（`safe.directory`, 用户身份 `user.email/name` 未设置）。
   - 远程仓库已有内容（如初始化 README）导致推送冲突，需使用 `git pull --allow-unrelated-histories` 或 `git push --force-with-lease`。
 
-### 创建仓库
+### 1、创建仓库
 
 #### 通过 GitHub 网页创建（最常用）
 
@@ -133,18 +149,18 @@ mkdocs-material" > requirements.txt
    - **☑ Choose a license**：选填。为项目选择开源许可证。
 5. **完成创建**：点击页面底部的 **Create repository** 按钮。
 
-### 设置Github Action
+### 2、设置Github Action
 
 - 需要到仓库 Settings → Pages → Build and deployment
 - 选择 Source: GitHub Actions
 
-### 安装Git客户端
+### 3、安装Git客户端
 
 ```
 sudo apt update
 sudo apt install git -y
 ```
-### 配置 Git 用户信息
+### 4、配置 Git 用户信息
 
 在你的终端中，执行以下命令来设置全局的用户名和邮箱（请将示例信息替换为你自己的）：
 
@@ -158,7 +174,9 @@ git config --global user.name "walteryangg"
 > - **邮箱**：使用你在 GitHub 上设置的公开邮箱（可以在 GitHub 的 `Settings -> Emails` 中查看）。
 > - **用户名**：使用你的 GitHub 用户名或你常用的昵称。
 
-### 导航到你的项目目录并初始化（如果尚未初始化）
+### 5、导航到你的项目目录并初始化
+
+**如果尚未初始化**
 
 根据你提供的路径，你的项目目录很可能就是 `/opt/1panel/apps/mkdocs-material/mkdocs/data`。
 
@@ -168,9 +186,9 @@ git config --global user.name "walteryangg"
 git init
 ```
 
-### 关联你的GitHub远程仓库
+### 6、关联你的GitHub远程仓库
 
-### GitHub 连接仓库的认证密钥
+#### GitHub 连接仓库的认证密钥
 
 #### **HTTPS 个人访问令牌**(不太推荐，容易443端口出现问题)
 
@@ -207,7 +225,7 @@ flowchart LR
 
 这是最关键的一步：**令牌只会在生成时显示一次**。生成后请务必立即将其**复制并保存在一个安全的地方**（如密码管理器），关闭页面后将无法再次查看完整令牌。
 
-#### 📝 令牌的使用方法
+#### 令牌的使用方法
 
 **首次推送到GitHub，触发自动化**执行推送，这会触发工作流运行：
 
@@ -254,7 +272,7 @@ flowchart LR
 
 
 
-### 提交工作流文件：
+### 7、提交工作流文件：
 
 `.github/workflows/deploy.yml`
 
@@ -263,7 +281,7 @@ git add .github/workflows/deploy.yml
 git commit -m "feat: 添加GitHub Actions自动部署工作流"
 ```
 
-### 首次推送到GitHub，触发自动化
+### 8、首次推送到GitHub，触发自动化
 
 ```
 git branch -M main  # 确保分支名称为main（如果已是master分支可跳过）
@@ -307,7 +325,7 @@ git push origin main
 
 推送成功后，请立即去你的GitHub仓库页面查看：
 
-- **Code 标签页**：确认文件已更新（应包含 `.github/workflows/deploy.yml`）。
+- **Code 标签页**：确认文件已更新。
 - **Actions 标签页**：这是关键！几秒钟后，一个名为 “Deploy MkDocs” 的工作流应该会被自动触发并开始运行。等待它变成绿色的 **✅**，你的网站就部署成功了。
 
 ## 五、自定义域名
