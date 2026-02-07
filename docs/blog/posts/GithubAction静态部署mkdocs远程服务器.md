@@ -1,6 +1,6 @@
 ---
 title: Github Action静态部署mkdocs远程服务器
-date: 2026-2-6
+date: 2026-02-06
 tags:
   - mkdocs
 categories:
