@@ -120,11 +120,12 @@ hide:
         ],
         links: [
             // 我的应用
-            { id: 'memos', name: 'Memos', url: 'http://memos.hiquq.com/', category: 'myapps' },
-            { id: 'openlist', name: 'OpenList', url: 'http://openlist.hiquq.com/', category: 'myapps' },
+            { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
+            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
+            { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
             { id: 'lib', name: 'Lib', url: 'http://lib.hiquq.com/', category: 'myapps' },
             { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.hiquq.com/web/', category: 'myapps' },
-            { id: 'npm', name: 'NPM', url: 'http://npm.hiquq.com/', category: 'myapps' },
+            { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
             { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.hiquq.com/', category: 'myapps' },
             { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
             { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.hiquq.com/', category: 'myapps' },
@@ -168,6 +169,7 @@ hide:
         'default': 'fas fa-globe',
         'memos': 'fas fa-sticky-note',
         'openlist': 'fas fa-list',
+        'NAS': 'fas fa-list',
         'lib': 'fas fa-book',
         'jellyfin': 'fas fa-film',
         'npm': 'fab fa-npm',
