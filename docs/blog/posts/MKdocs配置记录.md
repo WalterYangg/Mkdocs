@@ -166,22 +166,23 @@ search:
 
 ``` yaml
 site_name: SeekTHink
-site_url: http://note.sth.ink/ #自动生成页面url将引用的域名
+site_url: https://home.sth.ink
+
 site_author: Walter
-site_description: 简单实用的文档网站
+site_description: 积思求索
 
 theme:
   name: material
+  #custom_dir: custom_theme/
   language: zh
   features:
-    - navigation.tabs # 当启用标签页时，顶级部分将在标题下方的菜单层中呈现
-    - navigation.top # 回到页面顶部按钮
-    - search.suggest #搜索建议
-    - search.highlight #搜索高亮
-    - navigation.instant  # 为了在使用即时导航时在网络连接较慢的情况下提供更好的用户体验，可以启用进度指示器，下同
-    - navigation.instant.progress    
-    #- toc.integrate # (1)! # 页面中右上角的页面导航集成到左侧导航侧边栏
-    - content.code.copy  # md代码块复制
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+    - search.highlight
+   #- navigation.instant
+    - content.code.copy
+
   palette:
     # ----- 亮色模式 -----
     - scheme: default
@@ -254,6 +255,8 @@ plugins:
       archive: true
 
 markdown_extensions:
+  - attr_list # 可选但推荐，用于支持更丰富的属性
+  - md_in_html # 核心：允许混合Markdown与HTML
   - admonition
   - codehilite
   - footnotes
@@ -261,12 +264,15 @@ markdown_extensions:
       permalink: true
       
 extra_css:
-  - styles/extra.css  
+  - styles/extra.css
+  - styles/homepage.css
 
+
+  
 extra:
   generator: false #隐藏页脚网站生成器声明
 
-copyright: Copyright &copy; 2022 - 2025 Walter
+copyright: Copyright &copy; 2022 - 2026 Walter&积思求索
 
 ```
 
