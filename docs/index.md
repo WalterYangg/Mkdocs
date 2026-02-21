@@ -121,15 +121,15 @@ hide:
         links: [
             // 我的应用
             { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
-            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink:5241/', category: 'myapps' },
+            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
             { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
-            { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink:40109/', category: 'myapps' },
-            { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink:8096/web/', category: 'myapps' },
+            { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink/', category: 'myapps' },
+            { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink/web/', category: 'myapps' },
             { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
-            { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink:8088/', category: 'myapps' },
-            { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink:40027/', category: 'myapps' },
-            { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink:40157/', category: 'myapps' },
-            { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink:40157/#/admin', category: 'myapps' },
+            { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink/', category: 'myapps' },
+            { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
+            { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink/', category: 'myapps' },
+            { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink/#/admin', category: 'myapps' },
             
             // 在线工具
             { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
