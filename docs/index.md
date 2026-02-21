@@ -121,15 +121,15 @@ hide:
         links: [
             // 我的应用
             { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
-            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
+            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink:5241/', category: 'myapps' },
             { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
-            { id: 'lib', name: 'Lib', url: 'http://lib.hiquq.com/', category: 'myapps' },
-            { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.hiquq.com/web/', category: 'myapps' },
+            { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink:40109/', category: 'myapps' },
+            { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink:8096/web/', category: 'myapps' },
             { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
-            { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.hiquq.com/', category: 'myapps' },
-            { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
-            { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.hiquq.com/', category: 'myapps' },
-            { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.hiquq.com/#/admin', category: 'myapps' },
+            { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink:8088/', category: 'myapps' },
+            { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink:40027/', category: 'myapps' },
+            { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink:40157/', category: 'myapps' },
+            { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink:40157/#/admin', category: 'myapps' },
             
             // 在线工具
             { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
@@ -158,9 +158,9 @@ hide:
             { id: 'lceda', name: '立创EDA', url: 'https://pro.lceda.cn/editor', category: 'dev' },
             
             // 服务面板
-            { id: 'homepanel', name: 'HomePanel', url: 'http://47.122.74.70:27521/172765d467', category: 'panels' },
+            { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:27521/172765d467', category: 'panels' },
             { id: 'servicespanel', name: 'ServicesPanel', url: 'http://47.122.74.70:11045/1d2d0fc2e3', category: 'panels' },
-            { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.hiquq.com:11888/walter', category: 'panels' }
+            { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.sth.ink:11888/walter', category: 'panels' }
         ]
     };
     
