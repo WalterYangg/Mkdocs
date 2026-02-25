@@ -120,6 +120,8 @@ hide:
         ],
         links: [
             // 我的应用
+            { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
+            { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
             { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
             { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
             { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
@@ -167,6 +169,8 @@ hide:
     // 3. 图标映射
     const iconMap = {
         'default': 'fas fa-globe',
+        'chat': 'fas fa-comments',
+        'openapi': 'fas fa-code',
         'memos': 'fas fa-sticky-note',
         'openlist': 'fas fa-list',
         'NAS': 'fas fa-list',
