@@ -120,6 +120,7 @@ hide:
         ],
         links: [
             // 我的应用
+            { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
             { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
             { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
             { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
@@ -169,6 +170,7 @@ hide:
     // 3. 图标映射
     const iconMap = {
         'default': 'fas fa-globe',
+        'openclaw': 'fas fa-robot',
         'chat': 'fas fa-comments',
         'openapi': 'fas fa-code',
         'memos': 'fas fa-sticky-note',
