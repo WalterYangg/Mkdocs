@@ -409,22 +409,17 @@ hide:
         if (backgroundOptions) {
             backgroundOptions.addEventListener('click', (e) => {
                 if (e.target.classList.contains('bg-option')) {
-                    // 移除所有active类
                     document.querySelectorAll('.bg-option').forEach(option => {
                         option.classList.remove('active');
                     });
                     
-                    // 添加active类到当前选项
                     e.target.classList.add('active');
                     
-                    // 应用背景
                     const bgValue = e.target.dataset.bg;
-                    if (backgroundLayer) {
-                        if (bgValue === 'none') {
-                            backgroundLayer.style.backgroundImage = '';
-                        } else {
-                            backgroundLayer.style.backgroundImage = bgValue;
-                        }
+                    if (bgValue === 'none') {
+                        document.documentElement.style.setProperty('--background-image', 'none');
+                    } else {
+                        document.documentElement.style.setProperty('--background-image', bgValue);
                     }
                 }
             });
@@ -435,17 +430,12 @@ hide:
             applyCustomBg.addEventListener('click', () => {
                 const bgUrl = customBgInput.value.trim();
                 if (bgUrl) {
-                    // 移除所有active类
                     document.querySelectorAll('.bg-option').forEach(option => {
                         option.classList.remove('active');
                     });
                     
-                    // 应用自定义背景
-                    if (backgroundLayer) {
-                        backgroundLayer.style.backgroundImage = `url('${bgUrl}')`;
-                    }
+                    document.documentElement.style.setProperty('--background-image', `url('${bgUrl}')`);
                     
-                    // 清空输入框
                     customBgInput.value = '';
                 }
             });
@@ -475,16 +465,13 @@ hide:
             bgOpacitySlider.addEventListener('input', (e) => {
                 const value = e.target.value;
                 bgOpacityValue.textContent = value + '%';
-                if (backgroundLayer) {
-                    backgroundLayer.style.opacity = value / 100;
-                }
+                document.documentElement.style.setProperty('--background-opacity', value / 100);
             });
         }
         
         // 重置设置按钮事件
         if (resetSettings) {
             resetSettings.addEventListener('click', () => {
-                // 重置滑块值
                 if (opacitySlider) opacitySlider.value = 95;
                 if (opacityValue) opacityValue.textContent = '95%';
                 if (blurSlider) blurSlider.value = 8;
@@ -492,17 +479,11 @@ hide:
                 if (bgOpacitySlider) bgOpacitySlider.value = 30;
                 if (bgOpacityValue) bgOpacityValue.textContent = '30%';
                 
-                // 重置 CSS 变量
                 document.documentElement.style.setProperty('--ui-opacity', 0.95);
                 document.documentElement.style.setProperty('--blur-intensity', '8px');
+                document.documentElement.style.setProperty('--background-opacity', 0.3);
+                document.documentElement.style.setProperty('--background-image', 'none');
                 
-                // 重置背景
-                if (backgroundLayer) {
-                    backgroundLayer.style.backgroundImage = '';
-                    backgroundLayer.style.opacity = 0.3;
-                }
-                
-                // 移除选中状态并选中第一个
                 document.querySelectorAll('.bg-option').forEach(option => {
                     option.classList.remove('active');
                 });
