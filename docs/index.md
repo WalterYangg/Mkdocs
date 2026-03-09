@@ -451,6 +451,64 @@ hide:
             });
         }
         
+
+        // 透明度滑块事件
+        if (opacitySlider && opacityValue) {
+            opacitySlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                opacityValue.textContent = value + '%';
+                document.documentElement.style.setProperty('--ui-opacity', value / 100);
+            });
+        }
+        
+        // 模糊效果滑块事件
+        if (blurSlider && blurValue) {
+            blurSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                blurValue.textContent = value + 'px';
+                document.documentElement.style.setProperty('--blur-intensity', value + 'px');
+            });
+        }
+        
+        // 背景透明度滑块事件
+        if (bgOpacitySlider && bgOpacityValue) {
+            bgOpacitySlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                bgOpacityValue.textContent = value + '%';
+                if (backgroundLayer) {
+                    backgroundLayer.style.opacity = value / 100;
+                }
+            });
+        }
+        
+        // 重置设置按钮事件
+        if (resetSettings) {
+            resetSettings.addEventListener('click', () => {
+                // 重置滑块值
+                if (opacitySlider) opacitySlider.value = 95;
+                if (opacityValue) opacityValue.textContent = '95%';
+                if (blurSlider) blurSlider.value = 8;
+                if (blurValue) blurValue.textContent = '8px';
+                if (bgOpacitySlider) bgOpacitySlider.value = 30;
+                if (bgOpacityValue) bgOpacityValue.textContent = '30%';
+                
+                // 重置 CSS 变量
+                document.documentElement.style.setProperty('--ui-opacity', 0.95);
+                document.documentElement.style.setProperty('--blur-intensity', '8px');
+                
+                // 重置背景
+                if (backgroundLayer) {
+                    backgroundLayer.style.backgroundImage = '';
+                    backgroundLayer.style.opacity = 0.3;
+                }
+                
+                // 移除选中状态并选中第一个
+                document.querySelectorAll('.bg-option').forEach(option => {
+                    option.classList.remove('active');
+                });
+                document.querySelector('.bg-option.preset-1')?.classList.add('active');
+            });
+        }
         // 点击设置面板外部关闭面板
         document.addEventListener('click', (e) => {
             if (settingsPanel && settingsPanel.classList.contains('active') && 
