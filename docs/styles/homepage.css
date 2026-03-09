@@ -83,7 +83,7 @@ body.is-homepage #settingsPanel.active {
     --border-color: rgba(0, 0, 0, 0.08);
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     --blur-intensity: 8px;
-    --background-image: none;
+    --background-image: url('../images/backgrounds/bg_1.png');
     --background-opacity: 0.03;
     --container-max-width: 1200px;
     --ui-opacity: 0.95;
