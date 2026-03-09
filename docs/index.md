@@ -11,11 +11,6 @@ hide:
 <div class="homepage-container">
     <!-- 背景层 -->
     <div class="background-layer" id="backgroundLayer"></div>
-
-    <!-- 设置按钮 -->
-    <button class="settings-btn" id="settingsToggle">
-        <i class="fas fa-cog"></i>
-    </button>
     
     <!-- 主要内容 -->
     <main class="main-content">
@@ -43,63 +38,8 @@ hide:
             </section>
         </div>
     </main>
-    
-    <!-- 设置面板 -->
-    <div class="settings-panel" id="settingsPanel">
-        <div class="settings-header">
-            <h3 class="settings-title">设置</h3>
-            <button class="close-settings" id="closeSettings">×</button>
-        </div>
-    
-        <div class="settings-section">
-            <h3>背景设置</h3>
-            <div class="background-options" id="backgroundOptions">
-                <div class="bg-option preset-1 active" data-bg="none" title="无背景"></div>
-                <div class="bg-option preset-2" data-bg="linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)" title="渐变背景1"></div>
-                <div class="bg-option preset-3" data-bg="linear-gradient(135deg, #e3e9f7 0%, #ffffff 100%)" title="渐变背景2"></div>
-                <div class="bg-option preset-4" data-bg="#f8f9fa" title="浅灰背景"></div>
-                <div class="bg-option preset-5" data-bg="#ffffff" title="纯白背景"></div>
-                <div class="bg-option preset-6" data-bg="linear-gradient(135deg, #667eea 0%, #764ba2 100%)" title="渐变背景3"></div>
-            </div>
-    
-            <div class="custom-bg-input">
-                <input type="text" id="customBgInput" placeholder="输入图片URL...">
-                <button id="applyCustomBg">应用</button>
-            </div>
-        </div>
-    
-        <div class="settings-section">
-            <h3>透明度设置</h3>
-            <div class="slider-container">
-                <div class="slider-label">
-                    <span>背景透明度</span>
-                    <span id="bgOpacityValue">30%</span>
-                </div>
-                <input type="range" min="0" max="100" value="30" class="slider" id="bgOpacitySlider">
-            </div>
-    
-            <div class="slider-container">
-                <div class="slider-label">
-                    <span>UI透明度</span>
-                    <span id="opacityValue">95%</span>
-                </div>
-                <input type="range" min="50" max="100" value="95" class="slider" id="opacitySlider">
-            </div>
-    
-            <div class="slider-container">
-                <div class="slider-label">
-                    <span>模糊效果</span>
-                    <span id="blurValue">8px</span>
-                </div>
-                <input type="range" min="0" max="20" value="8" class="slider" id="blurSlider">
-            </div>
-        </div>
-    
-        <button class="reset-btn" id="resetSettings">重置设置</button>
-    </div>
 </div>
 
-<!-- 将整个JavaScript功能内联到页面中 -->
 <script>
 // 立即执行的主页初始化函数
 (function() {
@@ -211,19 +151,6 @@ hide:
     const linksGrid = document.getElementById('linksGrid');
     const linksSection = document.getElementById('linksSection');
     const searchInput = document.getElementById('searchInput');
-    const settingsToggle = document.getElementById('settingsToggle');
-    const settingsPanel = document.getElementById('settingsPanel');
-    const closeSettings = document.getElementById('closeSettings');
-    const backgroundOptions = document.getElementById('backgroundOptions');
-    const customBgInput = document.getElementById('customBgInput');
-    const applyCustomBg = document.getElementById('applyCustomBg');
-    const opacitySlider = document.getElementById('opacitySlider');
-    const opacityValue = document.getElementById('opacityValue');
-    const blurSlider = document.getElementById('blurSlider');
-    const blurValue = document.getElementById('blurValue');
-    const resetSettings = document.getElementById('resetSettings');
-    const bgOpacitySlider = document.getElementById('bgOpacitySlider');
-    const bgOpacityValue = document.getElementById('bgOpacityValue');
     const backgroundLayer = document.getElementById('backgroundLayer');
     
     // 5. 状态变量
@@ -239,7 +166,7 @@ hide:
         
         siteData.categories.forEach(category => {
             const button = document.createElement('button');
-            button.className = `category-btn ${category.id === currentCategory ? 'active' : ''}`;
+            button.className = 'category-btn ' + (category.id === currentCategory ? 'active' : '');
             button.textContent = category.name;
             button.dataset.category = category.id;
             categoriesContainer.appendChild(button);
@@ -249,7 +176,7 @@ hide:
     // 7. 获取图标HTML
     function getIconHTML(linkId) {
         const iconClass = iconMap[linkId] || iconMap['default'];
-        return `<i class="${iconClass}"></i>`;
+        return '<i class="' + iconClass + '"></i>';
     }
     
     // 8. 渲染链接
@@ -261,11 +188,11 @@ hide:
             isAnimating = true;
             linksGrid.classList.add('fade-out');
             
-            setTimeout(() => {
+            setTimeout(function() {
                 renderLinksContent();
                 linksGrid.classList.remove('fade-out');
                 
-                setTimeout(() => {
+                setTimeout(function() {
                     isAnimating = false;
                 }, 300);
             }, 300);
@@ -281,7 +208,7 @@ hide:
         linksGrid.innerHTML = '';
         
         // 过滤链接
-        const filteredLinks = siteData.links.filter(link => {
+        const filteredLinks = siteData.links.filter(function(link) {
             const matchesCategory = !currentCategory || link.category === currentCategory;
             const matchesSearch = !searchKeyword || 
                 link.name.toLowerCase().includes(searchKeyword.toLowerCase()) ||
@@ -299,17 +226,16 @@ hide:
         }
         
         // 渲染链接卡片
-        filteredLinks.forEach((link, index) => {
+        filteredLinks.forEach(function(link, index) {
             const card = document.createElement('a');
             card.className = 'link-card';
             card.href = link.url;
             card.target = '_blank';
-            card.style.animationDelay = `${index * 0.05}s`;
+            card.style.animationDelay = (index * 0.05) + 's';
             
-            card.innerHTML = `
-                <div class="link-icon">${getIconHTML(link.id)}</div>
-                <div class="link-name">${link.name}</div>
-            `;
+            card.innerHTML = 
+                '<div class="link-icon">' + getIconHTML(link.id) + '</div>' +
+                '<div class="link-name">' + link.name + '</div>';
             
             linksGrid.appendChild(card);
         });
@@ -318,37 +244,23 @@ hide:
         if (filteredLinks.length === 0 && (currentCategory || searchKeyword)) {
             const emptyState = document.createElement('div');
             emptyState.className = 'empty-state';
-            emptyState.innerHTML = `
-                <i class="fas fa-search"></i>
-                <p>没有找到匹配的网站</p>
-            `;
+            emptyState.innerHTML = 
+                '<i class="fas fa-search"></i>' +
+                '<p>没有找到匹配的网站</p>';
             linksGrid.appendChild(emptyState);
         }
     }
     
-    // 10. 设置面板功能
-    function openSettingsPanel() {
-        if (settingsPanel) {
-            settingsPanel.classList.add('active');
-        }
-    }
-    
-    function closeSettingsPanel() {
-        if (settingsPanel) {
-            settingsPanel.classList.remove('active');
-        }
-    }
-    
-    // 11. 设置事件监听器
+    // 10. 设置事件监听器
     function setupEventListeners() {
         // 分类点击事件
         if (categoriesContainer) {
-            categoriesContainer.addEventListener('click', (e) => {
+            categoriesContainer.addEventListener('click', function(e) {
                 if (e.target.classList.contains('category-btn') && !isAnimating) {
                     const newCategory = e.target.dataset.category;
                     
                     // 移除所有active类
-                    document.querySelectorAll('.category-btn').forEach(btn => {
+                    document.querySelectorAll('.category-btn').forEach(function(btn) {
                         btn.classList.remove('active');
                     });
                     
@@ -367,19 +279,19 @@ hide:
         
         // 搜索输入事件
         if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
+            searchInput.addEventListener('input', function(e) {
                 searchKeyword = e.target.value.trim();
                 renderLinks();
             });
             
             // 搜索框回车事件
-            searchInput.addEventListener('keydown', (e) => {
+            searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     const value = searchInput.value.trim();
                     if (value) {
                         let url = value;
                         if (!/^https?:\/\//i.test(value)) {
-                            url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
+                            url = 'https://www.bing.com/search?q=' + encodeURIComponent(value);
                         }
                         
                         try {
@@ -387,7 +299,7 @@ hide:
                             window.open(url, '_blank');
                             searchInput.value = '';
                         } catch (err) {
-                            url = `https://www.bing.com/search?q=${encodeURIComponent(value)}`;
+                            url = 'https://www.bing.com/search?q=' + encodeURIComponent(value);
                             window.open(url, '_blank');
                             searchInput.value = '';
                         }
@@ -395,112 +307,9 @@ hide:
                 }
             });
         }
-        
-        // 设置面板事件
-        if (settingsToggle) {
-            settingsToggle.addEventListener('click', openSettingsPanel);
-        }
-        
-        if (closeSettings) {
-            closeSettings.addEventListener('click', closeSettingsPanel);
-        }
-        
-        // 背景选择事件
-        if (backgroundOptions) {
-            backgroundOptions.addEventListener('click', (e) => {
-                if (e.target.classList.contains('bg-option')) {
-                    document.querySelectorAll('.bg-option').forEach(option => {
-                        option.classList.remove('active');
-                    });
-                    
-                    e.target.classList.add('active');
-                    
-                    const bgValue = e.target.dataset.bg;
-                    if (bgValue === 'none') {
-                        document.documentElement.style.setProperty('--background-image', 'none');
-                    } else {
-                        document.documentElement.style.setProperty('--background-image', bgValue);
-                    }
-                }
-            });
-        }
-        
-        // 自定义背景应用
-        if (applyCustomBg && customBgInput) {
-            applyCustomBg.addEventListener('click', () => {
-                const bgUrl = customBgInput.value.trim();
-                if (bgUrl) {
-                    document.querySelectorAll('.bg-option').forEach(option => {
-                        option.classList.remove('active');
-                    });
-                    
-                    document.documentElement.style.setProperty('--background-image', `url('${bgUrl}')`);
-                    
-                    customBgInput.value = '';
-                }
-            });
-        }
-        
-
-        // 透明度滑块事件
-        if (opacitySlider && opacityValue) {
-            opacitySlider.addEventListener('input', (e) => {
-                const value = e.target.value;
-                opacityValue.textContent = value + '%';
-                document.documentElement.style.setProperty('--ui-opacity', value / 100);
-            });
-        }
-        
-        // 模糊效果滑块事件
-        if (blurSlider && blurValue) {
-            blurSlider.addEventListener('input', (e) => {
-                const value = e.target.value;
-                blurValue.textContent = value + 'px';
-                document.documentElement.style.setProperty('--blur-intensity', value + 'px');
-            });
-        }
-        
-        // 背景透明度滑块事件
-        if (bgOpacitySlider && bgOpacityValue) {
-            bgOpacitySlider.addEventListener('input', (e) => {
-                const value = e.target.value;
-                bgOpacityValue.textContent = value + '%';
-                document.documentElement.style.setProperty('--background-opacity', value / 100);
-            });
-        }
-        
-        // 重置设置按钮事件
-        if (resetSettings) {
-            resetSettings.addEventListener('click', () => {
-                if (opacitySlider) opacitySlider.value = 95;
-                if (opacityValue) opacityValue.textContent = '95%';
-                if (blurSlider) blurSlider.value = 8;
-                if (blurValue) blurValue.textContent = '8px';
-                if (bgOpacitySlider) bgOpacitySlider.value = 30;
-                if (bgOpacityValue) bgOpacityValue.textContent = '30%';
-                
-                document.documentElement.style.setProperty('--ui-opacity', 0.95);
-                document.documentElement.style.setProperty('--blur-intensity', '8px');
-                document.documentElement.style.setProperty('--background-opacity', 0.3);
-                document.documentElement.style.setProperty('--background-image', 'none');
-                
-                document.querySelectorAll('.bg-option').forEach(option => {
-                    option.classList.remove('active');
-                });
-                document.querySelector('.bg-option.preset-1')?.classList.add('active');
-            });
-        }
-        // 点击设置面板外部关闭面板
-        document.addEventListener('click', (e) => {
-            if (settingsPanel && settingsPanel.classList.contains('active') && 
-                !settingsPanel.contains(e.target) && 
-                e.target !== settingsToggle) {
-                closeSettingsPanel();
-            }
-        });
     }
     
-    // 12. 页面加载后执行
+    // 11. 页面加载后执行
     function initHomepage() {
         console.log('初始化主页功能');
         
@@ -514,8 +323,7 @@ hide:
         console.log('主页功能初始化完成');
     }
     
-    // 13. 执行初始化
-    // 等待页面完全加载
+    // 12. 执行初始化
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initHomepage);
     } else {
