@@ -5,6 +5,37 @@ hide:
   - toc
 ---
 
+<!-- 
+============================================================
+📌 导航页面维护说明
+============================================================
+
+【如何添加新链接】
+在 siteData.links 数组中添加一行:
+{ id: '唯一ID', name: '显示名称', url: '链接地址', category: '所属分类' }
+
+【如何添加新分类】
+在 siteData.categories 数组中添加一行:
+{ id: '唯一ID', name: '显示名称' }
+
+【如何添加/修改图标】
+在 iconMap 对象中添加/修改映射:
+'id': 'FontAwesome图标类名'
+图标库: https://fontawesome.com/v5/search
+
+【分类ID对应关系】
+myapps  - 我的应用
+tools   - 在线工具
+docs    - 参考文档
+forums  - 网站论坛
+dev     - 技术开发
+panels  - 服务面板
+
+【背景图片】
+修改 docs/styles/homepage.css 中的 --background-image 变量
+============================================================
+-->
+
 <!-- 添加FontAwesome图标库 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -41,130 +72,158 @@ hide:
 </div>
 
 <script>
-// 立即执行的主页初始化函数
+/**
+ * ============================================================
+ * 主页导航数据配置
+ * 
+ * 修改这里来添加/删除/修改链接和分类
+ * ============================================================
+ */
+
+// ---------- 分类配置 ----------
+const siteData = {
+    categories: [
+        { id: 'myapps', name: '我的应用' },
+        { id: 'tools', name: '在线工具' },
+        { id: 'docs', name: '参考文档' },
+        { id: 'forums', name: '网站论坛' },
+        { id: 'dev', name: '技术开发' },
+        { id: 'panels', name: '服务面板' }
+    ],
+
+    // ---------- 链接配置 ----------
+    // 格式: { id: '唯一标识', name: '显示名称', url: '网址', category: '分类ID' }
+    links: [
+        /* ---------- 我的应用 ---------- */
+        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
+        { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
+        { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
+        { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
+        { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
+        { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
+        { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink/', category: 'myapps' },
+        { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink/web/', category: 'myapps' },
+        { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
+        { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink/', category: 'myapps' },
+        { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
+        { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink/', category: 'myapps' },
+        { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink/#/admin', category: 'myapps' },
+
+        /* ---------- 在线工具 ---------- */
+        { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
+        { id: 'visionon', name: 'Visionon', url: 'https://pub.visionon.cn/', category: 'tools' },
+        { id: 'helloworld', name: 'helloworld', url: 'https://www.helloworld.net/html2md', category: 'tools' },
+        { id: 'savetube', name: 'SaveTube', url: 'https://yt.savetube.me/', category: 'tools' },
+        { id: 'appicon', name: 'Appicon', url: 'https://zhangyu1818.github.io/appicon-forge/', category: 'tools' },
+        { id: 'removebg', name: 'Remove', url: 'https://www.remove.bg/zh', category: 'tools' },
+        { id: 'canva', name: 'Canva可画', url: 'https://www.canva.cn/', category: 'tools' },
+        { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools' },
+
+        /* ---------- 参考文档 ---------- */
+        { id: 'embedfire', name: '野火开发指南', url: 'https://doc.embedfire.com/linux/imx6/driver/zh/latest/index.html', category: 'docs' },
+        { id: 'micropython', name: 'MpyESP32', url: 'http://docs.micropython.org/en/latest/esp32/quickref.html', category: 'docs' },
+        { id: 'lvgl', name: 'Lvgl中文文档', url: 'https://lvgl.100ask.net/master/index.html', category: 'docs' },
+        { id: 'linuxcool', name: 'Linux命令大全', url: 'https://www.linuxcool.com/', category: 'docs' },
+
+        /* ---------- 网站论坛 ---------- */
+        { id: 'zlibrary', name: 'Zlibrary', url: 'https://zh.z-lib.gs/', category: 'forums' },
+        { id: 'fontawesome', name: 'Fontawesome', url: 'https://fontawesome.com/v4/icons/', category: 'forums' },
+        { id: 'zhutix', name: '致美化', url: 'https://zhutix.com/', category: 'forums' },
+        { id: 'namemc', name: 'NameMC', url: 'https://namemc.com/minecraft-skins', category: 'forums' },
+
+        /* ---------- 技术开发 ---------- */
+        { id: 'oshwhub', name: '立创开源硬件', url: 'https://oshwhub.com/', category: 'dev' },
+        { id: 'lceda', name: '立创EDA', url: 'https://pro.lceda.cn/editor', category: 'dev' },
+
+        /* ---------- 服务面板 ---------- */
+        { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:27521/172765d467', category: 'panels' },
+        { id: 'servicespanel', name: 'ServicesPanel', url: 'http://47.122.74.70:11045/1d2d0fc2e3', category: 'panels' },
+        { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.sth.ink:11888/walter', category: 'panels' }
+    ]
+};
+
+// ---------- 图标配置 ----------
+// 格式: '链接ID': 'FontAwesome图标类名'
+// 默认图标: 'default': 'fas fa-globe'
+const iconMap = {
+    'default': 'fas fa-globe',
+    
+    // 我的应用
+    'openclaw': 'fas fa-robot',
+    'chat': 'fas fa-comments',
+    'oneapi': 'fas fa-code',
+    'memos': 'fas fa-sticky-note',
+    'openlist': 'fas fa-list',
+    'NAS': 'fas fa-hdd',
+    'lib': 'fas fa-book',
+    'jellyfin': 'fas fa-film',
+    'npm': 'fab fa-npm',
+    'stirlingpdf': 'fas fa-file-pdf',
+    'lsky': 'fas fa-image',
+    'filebox': 'fas fa-box',
+    'filebox-admin': 'fas fa-cog',
+
+    // 在线工具
+    'lkssite': 'fas fa-tools',
+    'visionon': 'fas fa-eye',
+    'helloworld': 'fas fa-code',
+    'savetube': 'fab fa-youtube',
+    'appicon': 'fas fa-mobile-alt',
+    'removebg': 'fas fa-eraser',
+    'canva': 'fas fa-palette',
+    'chatgpt': 'fas fa-robot',
+
+    // 参考文档
+    'embedfire': 'fas fa-book-open',
+    'micropython': 'fas fa-microchip',
+    'lvgl': 'fas fa-desktop',
+    'linuxcool': 'fas fa-terminal',
+
+    // 网站论坛
+    'zlibrary': 'fas fa-book',
+    'fontawesome': 'fas fa-icons',
+    'zhutix': 'fas fa-paint-brush',
+    'namemc': 'fas fa-user',
+
+    // 技术开发
+    'oshwhub': 'fas fa-microchip',
+    'lceda': 'fas fa-project-diagram',
+
+    // 服务面板
+    'homepanel': 'fas fa-home',
+    'servicespanel': 'fas fa-server',
+    'homeboard': 'fas fa-tachometer-alt'
+};
+
+// ============================================================
+// 以下为代码逻辑，请勿随意修改
+// ============================================================
+
 (function() {
     console.log('主页功能初始化开始...');
 
-    // 1. 添加主页标识
+    // 添加主页标识
     document.body.classList.add('is-homepage');
     
-    // 2. 网站数据配置
-    const siteData = {
-        categories: [
-            { id: 'myapps', name: '我的应用' },
-            { id: 'tools', name: '在线工具' },
-            { id: 'docs', name: '参考文档' },
-            { id: 'forums', name: '网站论坛' },
-            { id: 'dev', name: '技术开发' },
-            { id: 'panels', name: '服务面板' }
-        ],
-        links: [
-            // 我的应用
-            { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
-            { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
-            { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
-            { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
-            { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
-            { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
-            { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink/', category: 'myapps' },
-            { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink/web/', category: 'myapps' },
-            { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
-            { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink/', category: 'myapps' },
-            { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
-            { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink/', category: 'myapps' },
-            { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink/#/admin', category: 'myapps' },
-            
-            // 在线工具
-            { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
-            { id: 'visionon', name: 'Visionon', url: 'https://pub.visionon.cn/', category: 'tools' },
-            { id: 'helloworld', name: 'helloworld', url: 'https://www.helloworld.net/html2md', category: 'tools' },
-            { id: 'savetube', name: 'SaveTube', url: 'https://yt.savetube.me/', category: 'tools' },
-            { id: 'appicon', name: 'Appicon', url: 'https://zhangyu1818.github.io/appicon-forge/', category: 'tools' },
-            { id: 'removebg', name: 'Remove', url: 'https://www.remove.bg/zh', category: 'tools' },
-            { id: 'canva', name: 'Canva可画', url: 'https://www.canva.cn/', category: 'tools' },
-            { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools' },
-            
-            // 参考文档
-            { id: 'embedfire', name: '野火开发指南', url: 'https://doc.embedfire.com/linux/imx6/driver/zh/latest/index.html', category: 'docs' },
-            { id: 'micropython', name: 'MpyESP32', url: 'http://docs.micropython.org/en/latest/esp32/quickref.html', category: 'docs' },
-            { id: 'lvgl', name: 'Lvgl中文文档', url: 'https://lvgl.100ask.net/master/index.html', category: 'docs' },
-            { id: 'linuxcool', name: 'Linux命令大全', url: 'https://www.linuxcool.com/', category: 'docs' },
-            
-            // 网站论坛
-            { id: 'zlibrary', name: 'Zlibrary', url: 'https://zh.z-lib.gs/', category: 'forums' },
-            { id: 'fontawesome', name: 'Fontawesome', url: 'https://fontawesome.com/v4/icons/', category: 'forums' },
-            { id: 'zhutix', name: '致美化', url: 'https://zhutix.com/', category: 'forums' },
-            { id: 'namemc', name: 'NameMC', url: 'https://namemc.com/minecraft-skins', category: 'forums' },
-            
-            // 技术开发
-            { id: 'oshwhub', name: '立创开源硬件', url: 'https://oshwhub.com/', category: 'dev' },
-            { id: 'lceda', name: '立创EDA', url: 'https://pro.lceda.cn/editor', category: 'dev' },
-            
-            // 服务面板
-            { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:27521/172765d467', category: 'panels' },
-            { id: 'servicespanel', name: 'ServicesPanel', url: 'http://47.122.74.70:11045/1d2d0fc2e3', category: 'panels' },
-            { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.sth.ink:11888/walter', category: 'panels' }
-        ]
-    };
-    
-    // 3. 图标映射
-    const iconMap = {
-        'default': 'fas fa-globe',
-        'openclaw': 'fas fa-robot',
-        'chat': 'fas fa-comments',
-        'openapi': 'fas fa-code',
-        'memos': 'fas fa-sticky-note',
-        'openlist': 'fas fa-list',
-        'NAS': 'fas fa-list',
-        'lib': 'fas fa-book',
-        'jellyfin': 'fas fa-film',
-        'npm': 'fab fa-npm',
-        'stirlingpdf': 'fas fa-file-pdf',
-        'lsky': 'fas fa-image',
-        'filebox': 'fas fa-box',
-        'filebox-admin': 'fas fa-cog',
-        'lkssite': 'fas fa-tools',
-        'visionon': 'fas fa-eye',
-        'helloworld': 'fas fa-code',
-        'savetube': 'fab fa-youtube',
-        'appicon': 'fas fa-mobile-alt',
-        'removebg': 'fas fa-eraser',
-        'canva': 'fas fa-palette',
-        'chatgpt': 'fas fa-robot',
-        'embedfire': 'fas fa-book-open',
-        'micropython': 'fas fa-microchip',
-        'lvgl': 'fas fa-desktop',
-        'linuxcool': 'fas fa-terminal',
-        'zlibrary': 'fas fa-book',
-        'fontawesome': 'fas fa-icons',
-        'zhutix': 'fas fa-paint-brush',
-        'namemc': 'fas fa-user',
-        'oshwhub': 'fas fa-microchip',
-        'lceda': 'fas fa-project-diagram',
-        'homepanel': 'fas fa-home',
-        'servicespanel': 'fas fa-server',
-        'homeboard': 'fas fa-tachometer-alt'
-    };
-    
-    // 4. 获取DOM元素
+    // 获取DOM元素
     const categoriesContainer = document.getElementById('categories');
     const linksGrid = document.getElementById('linksGrid');
     const linksSection = document.getElementById('linksSection');
     const searchInput = document.getElementById('searchInput');
     const backgroundLayer = document.getElementById('backgroundLayer');
     
-    // 5. 状态变量
+    // 状态变量
     let currentCategory = '';
     let searchKeyword = '';
     let isAnimating = false;
     
-    // 6. 渲染分类函数
+    // 渲染分类
     function renderCategories() {
         if (!categoriesContainer) return;
         
         categoriesContainer.innerHTML = '';
         
-        siteData.categories.forEach(category => {
+        siteData.categories.forEach(function(category) {
             const button = document.createElement('button');
             button.className = 'category-btn ' + (category.id === currentCategory ? 'active' : '');
             button.textContent = category.name;
@@ -173,16 +232,18 @@ hide:
         });
     }
     
-    // 7. 获取图标HTML
+    // 获取图标
     function getIconHTML(linkId) {
         const iconClass = iconMap[linkId] || iconMap['default'];
         return '<i class="' + iconClass + '"></i>';
     }
     
-    // 8. 渲染链接
-    function renderLinks(animate = true) {
+    // 渲染链接
+    function renderLinks(animate) {
         if (!linksGrid) return;
         if (isAnimating) return;
+        
+        animate = animate !== false;
         
         if (animate) {
             isAnimating = true;
@@ -201,7 +262,7 @@ hide:
         }
     }
     
-    // 9. 渲染链接内容
+    // 渲染链接内容
     function renderLinksContent() {
         if (!linksGrid) return;
         
@@ -216,16 +277,12 @@ hide:
             return matchesCategory && matchesSearch;
         });
         
-        // 显示或隐藏链接区域
+        // 显示/隐藏链接区域
         if (linksSection) {
-            if (currentCategory || searchKeyword) {
-                linksSection.classList.add('active');
-            } else {
-                linksSection.classList.remove('active');
-            }
+            linksSection.classList.toggle('active', !!(currentCategory || searchKeyword));
         }
         
-        // 渲染链接卡片
+        // 渲染卡片
         filteredLinks.forEach(function(link, index) {
             const card = document.createElement('a');
             card.className = 'link-card';
@@ -240,31 +297,27 @@ hide:
             linksGrid.appendChild(card);
         });
         
-        // 如果没有匹配的链接
+        // 空状态
         if (filteredLinks.length === 0 && (currentCategory || searchKeyword)) {
             const emptyState = document.createElement('div');
             emptyState.className = 'empty-state';
-            emptyState.innerHTML = 
-                '<i class="fas fa-search"></i>' +
-                '<p>没有找到匹配的网站</p>';
+            emptyState.innerHTML = '<i class="fas fa-search"></i><p>没有找到匹配的网站</p>';
             linksGrid.appendChild(emptyState);
         }
     }
     
-    // 10. 设置事件监听器
+    // 事件监听
     function setupEventListeners() {
-        // 分类点击事件
+        // 分类点击
         if (categoriesContainer) {
             categoriesContainer.addEventListener('click', function(e) {
                 if (e.target.classList.contains('category-btn') && !isAnimating) {
                     const newCategory = e.target.dataset.category;
                     
-                    // 移除所有active类
                     document.querySelectorAll('.category-btn').forEach(function(btn) {
                         btn.classList.remove('active');
                     });
                     
-                    // 如果点击的是当前已选中的分类，则取消选择
                     if (newCategory === currentCategory) {
                         currentCategory = '';
                     } else {
@@ -277,14 +330,13 @@ hide:
             });
         }
         
-        // 搜索输入事件
+        // 搜索
         if (searchInput) {
             searchInput.addEventListener('input', function(e) {
                 searchKeyword = e.target.value.trim();
                 renderLinks();
             });
             
-            // 搜索框回车事件
             searchInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     const value = searchInput.value.trim();
@@ -297,33 +349,26 @@ hide:
                         try {
                             new URL(url);
                             window.open(url, '_blank');
-                            searchInput.value = '';
                         } catch (err) {
-                            url = 'https://www.bing.com/search?q=' + encodeURIComponent(value);
-                            window.open(url, '_blank');
-                            searchInput.value = '';
+                            window.open('https://www.bing.com/search?q=' + encodeURIComponent(value), '_blank');
                         }
+                        searchInput.value = '';
                     }
                 }
             });
         }
     }
     
-    // 11. 页面加载后执行
+    // 初始化
     function initHomepage() {
         console.log('初始化主页功能');
-        
-        // 渲染分类和链接
         renderCategories();
         renderLinks(false);
-        
-        // 设置事件监听器
         setupEventListeners();
-        
         console.log('主页功能初始化完成');
     }
     
-    // 12. 执行初始化
+    // 执行
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initHomepage);
     } else {
