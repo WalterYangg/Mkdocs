@@ -84,7 +84,7 @@ body.is-homepage #settingsPanel.active {
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     --blur-intensity: 8px;
     --background-image: url('../images/backgrounds/bg_1.png');
-    --background-opacity: 0.03;
+    --background-opacity: 0.15;
     --container-max-width: 1200px;
     --ui-opacity: 0.95;
 }
@@ -114,11 +114,11 @@ body.is-homepage #settingsPanel.active {
 /* ==================== 主页样式（只在 is-homepage 时应用） ==================== */
 body.is-homepage {
     font-family: 'Noto Sans SC', sans-serif;
-    background-color: var(--md-default-bg-color);
+    background-color: transparent;
     color: var(--md-typeset-color);
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
-    position: relative;
+    position: relative; background: transparent;
     line-height: 1.5;
 }
 
@@ -192,7 +192,7 @@ body.is-homepage .search-box {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    position: relative;
+    position: relative; background: transparent;
 }
 
 body.is-homepage .search-box input {
@@ -414,7 +414,7 @@ body.is-homepage .bg-option {
     cursor: pointer;
     border: 2px solid transparent;
     transition: all 0.2s;
-    position: relative;
+    position: relative; background: transparent;
     overflow: hidden;
 }
 
@@ -627,7 +627,7 @@ body.is-homepage .md-content #settingsPanel {
 
 /* 处理 Material 主题的过渡动画 */
 body.is-homepage .md-content {
-    position: relative;
+    position: relative; background: transparent;
 }
 
 /* 确保背景层在主题切换时保持 */
