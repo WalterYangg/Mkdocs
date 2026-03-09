@@ -128,12 +128,13 @@ body.is-homepage .background-layer {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: var(--background-image);
+    background-image: var(--background-image) !important;
+    backdrop-filter: blur(var(--blur-intensity));
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     z-index: -1;
-    transition: background-image 0.5s ease, opacity 0.5s ease;
+    transition: background-image 0.5s ease, opacity 0.5s ease, backdrop-filter 0.3s ease;
     opacity: var(--background-opacity);
 }
 
