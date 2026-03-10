@@ -111,6 +111,47 @@ body.is-homepage #settingsPanel.active {
     box-sizing: border-box;
 }
 
+/* ==================== 全局背景样式（所有页面） ==================== */
+/* 使用 ::before 伪元素，不需要修改 HTML */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;  /* 比主页背景层更低 */
+    opacity: var(--background-opacity);
+    pointer-events: none;
+}
+
+/* Material 主题主容器透明，让背景可见 */
+.md-main,
+.md-main__inner,
+.md-content {
+    background: transparent !important;
+}
+
+/* 导航栏和页脚半透明 */
+.md-header,
+.md-tabs,
+.md-footer,
+.md-footer-meta {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(var(--blur-intensity));
+}
+
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-tabs,
+[data-md-color-scheme="slate"] .md-footer,
+[data-md-color-scheme="slate"] .md-footer-meta {
+    background-color: rgba(18, 18, 18, 0.85) !important;
+}
+
 /* ==================== 主页样式（只在 is-homepage 时应用） ==================== */
 body.is-homepage {
     font-family: 'Noto Sans SC', sans-serif;
@@ -519,11 +560,13 @@ body.is-homepage .slider {
     background: var(--border-color);
     outline: none;
     -webkit-appearance: none;
+    appearance: none;
     transition: background 0.3s;
 }
 
 body.is-homepage .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 16px;
     height: 16px;
     border-radius: 50%;
