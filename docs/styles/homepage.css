@@ -105,42 +105,6 @@ body.is-homepage #settingsPanel.active {
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* ==================== 全局背景样式（所有页面） ==================== */
-/* 使用 ::before 伪元素，不需要修改 HTML */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: var(--background-image);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -2;  /* 比主页背景层更低 */
-    opacity: var(--background-opacity);
-    pointer-events: none;
-}
-
-/* 仅移除主内容区背景，保留导航栏和页脚原主题样式 */
-.md-main,
-.md-main__inner {
-    background: transparent !important;
-}
-
-/* 亮色主题下内容区半透明，让背景可见 */
-.md-content {
-    background: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* 暗色主题下内容区半透明 */
-[data-md-color-scheme="slate"] .md-content {
-    background: rgba(30, 30, 30, 0.85) !important;
-}
-
-/* 注意：不修改 .md-header, .md-tabs, .md-footer 以保留原主题 */
-
 /* ==================== 主页样式（只在 is-homepage 时应用） ==================== */
 body.is-homepage {
     font-family: 'Noto Sans SC', sans-serif;
