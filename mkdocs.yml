@@ -25,14 +25,6 @@ theme:
         icon: material/weather-sunny
         name: 切换深色模式
 
-    # ----- 暗色模式 -----
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: 切换亮色模式
-
     # ----- 自定义主题色 -----
     - scheme: default
       primary: blue
