@@ -99,16 +99,10 @@ body.is-homepage #settingsPanel.active {
     --md-typeset-color: #e0e0e0;
     --md-footer-bg-color: #1a1a1a;
     --md-footer-fg-color: #aaaaaa;
-    
+
     --card-bg: rgba(30, 30, 30, 0.95);
     --border-color: rgba(255, 255, 255, 0.08);
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 /* ==================== 全局背景样式（所有页面） ==================== */
@@ -129,28 +123,23 @@ body::before {
     pointer-events: none;
 }
 
-/* Material 主题主容器透明，让背景可见 */
+/* 仅移除主内容区背景，保留导航栏和页脚原主题样式 */
 .md-main,
-.md-main__inner,
-.md-content {
+.md-main__inner {
     background: transparent !important;
 }
 
-/* 导航栏和页脚半透明 */
-.md-header,
-.md-tabs,
-.md-footer,
-.md-footer-meta {
-    background-color: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(var(--blur-intensity));
+/* 亮色主题下内容区半透明，让背景可见 */
+.md-content {
+    background: rgba(255, 255, 255, 0.85) !important;
 }
 
-[data-md-color-scheme="slate"] .md-header,
-[data-md-color-scheme="slate"] .md-tabs,
-[data-md-color-scheme="slate"] .md-footer,
-[data-md-color-scheme="slate"] .md-footer-meta {
-    background-color: rgba(18, 18, 18, 0.85) !important;
+/* 暗色主题下内容区半透明 */
+[data-md-color-scheme="slate"] .md-content {
+    background: rgba(30, 30, 30, 0.85) !important;
 }
+
+/* 注意：不修改 .md-header, .md-tabs, .md-footer 以保留原主题 */
 
 /* ==================== 主页样式（只在 is-homepage 时应用） ==================== */
 body.is-homepage {
