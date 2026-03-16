@@ -42,7 +42,7 @@ panels  - 服务面板
 <div class="homepage-container">
     <!-- 背景层 -->
     <div class="background-layer" id="backgroundLayer"></div>
-    
+
     <!-- 主要内容 -->
     <main class="main-content">
         <div class="container">
@@ -97,6 +97,7 @@ const siteData = {
         /* ---------- 我的应用 ---------- */
         { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
         { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
+        { id: 'bitwarden', name: 'Bitwarden', url: 'https://bit.sth.ink/', category: 'myapps' },
         { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
         { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
@@ -108,7 +109,7 @@ const siteData = {
         { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
         { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink/', category: 'myapps' },
         { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink/#/admin', category: 'myapps' },
-
+    
         /* ---------- 在线工具 ---------- */
         { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
         { id: 'visionon', name: 'Visionon', url: 'https://pub.visionon.cn/', category: 'tools' },
@@ -118,23 +119,23 @@ const siteData = {
         { id: 'removebg', name: 'Remove', url: 'https://www.remove.bg/zh', category: 'tools' },
         { id: 'canva', name: 'Canva可画', url: 'https://www.canva.cn/', category: 'tools' },
         { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools' },
-
+    
         /* ---------- 参考文档 ---------- */
         { id: 'embedfire', name: '野火开发指南', url: 'https://doc.embedfire.com/linux/imx6/driver/zh/latest/index.html', category: 'docs' },
         { id: 'micropython', name: 'MpyESP32', url: 'http://docs.micropython.org/en/latest/esp32/quickref.html', category: 'docs' },
         { id: 'lvgl', name: 'Lvgl中文文档', url: 'https://lvgl.100ask.net/master/index.html', category: 'docs' },
         { id: 'linuxcool', name: 'Linux命令大全', url: 'https://www.linuxcool.com/', category: 'docs' },
-
+    
         /* ---------- 网站论坛 ---------- */
         { id: 'zlibrary', name: 'Zlibrary', url: 'https://zh.z-lib.gs/', category: 'forums' },
         { id: 'fontawesome', name: 'Fontawesome', url: 'https://fontawesome.com/v4/icons/', category: 'forums' },
         { id: 'zhutix', name: '致美化', url: 'https://zhutix.com/', category: 'forums' },
         { id: 'namemc', name: 'NameMC', url: 'https://namemc.com/minecraft-skins', category: 'forums' },
-
+    
         /* ---------- 技术开发 ---------- */
         { id: 'oshwhub', name: '立创开源硬件', url: 'https://oshwhub.com/', category: 'dev' },
         { id: 'lceda', name: '立创EDA', url: 'https://pro.lceda.cn/editor', category: 'dev' },
-
+    
         /* ---------- 服务面板 ---------- */
         { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:27521/172765d467', category: 'panels' },
         { id: 'servicespanel', name: 'ServicesPanel', url: 'http://47.122.74.70:11045/1d2d0fc2e3', category: 'panels' },
@@ -148,8 +149,10 @@ const siteData = {
 const iconMap = {
     'default': 'fas fa-globe',
     
+
     // 我的应用
     'openclaw': 'fas fa-robot',
+    'bitwarden': 'fas fa-key',
     'chat': 'fas fa-comments',
     'oneapi': 'fas fa-code',
     'memos': 'fas fa-sticky-note',
@@ -162,7 +165,7 @@ const iconMap = {
     'lsky': 'fas fa-image',
     'filebox': 'fas fa-box',
     'filebox-admin': 'fas fa-cog',
-
+    
     // 在线工具
     'lkssite': 'fas fa-tools',
     'visionon': 'fas fa-eye',
@@ -172,23 +175,23 @@ const iconMap = {
     'removebg': 'fas fa-eraser',
     'canva': 'fas fa-palette',
     'chatgpt': 'fas fa-robot',
-
+    
     // 参考文档
     'embedfire': 'fas fa-book-open',
     'micropython': 'fas fa-microchip',
     'lvgl': 'fas fa-desktop',
     'linuxcool': 'fas fa-terminal',
-
+    
     // 网站论坛
     'zlibrary': 'fas fa-book',
     'fontawesome': 'fas fa-icons',
     'zhutix': 'fas fa-paint-brush',
     'namemc': 'fas fa-user',
-
+    
     // 技术开发
     'oshwhub': 'fas fa-microchip',
     'lceda': 'fas fa-project-diagram',
-
+    
     // 服务面板
     'homepanel': 'fas fa-home',
     'servicespanel': 'fas fa-server',
