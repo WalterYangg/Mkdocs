@@ -107,8 +107,6 @@ const siteData = {
         { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
         { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink/', category: 'myapps' },
         { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
-        { id: 'filebox', name: 'FB文件快递柜', url: 'http://box.sth.ink/', category: 'myapps' },
-        { id: 'filebox-admin', name: 'FB管理员', url: 'http://box.sth.ink/#/admin', category: 'myapps' },
     
         /* ---------- 在线工具 ---------- */
         { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
@@ -163,8 +161,6 @@ const iconMap = {
     'npm': 'fab fa-npm',
     'stirlingpdf': 'fas fa-file-pdf',
     'lsky': 'fas fa-image',
-    'filebox': 'fas fa-box',
-    'filebox-admin': 'fas fa-cog',
     
     // 在线工具
     'lkssite': 'fas fa-tools',
