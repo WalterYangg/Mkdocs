@@ -96,7 +96,7 @@ const siteData = {
     links: [
         /* ---------- 我的应用 ---------- */
         { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
-        { id: 'chat', name: 'Chat', url: 'http://chat.sth.ink/', category: 'myapps' },
+        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps' },
         { id: 'bitwarden', name: 'Bitwarden', url: 'https://bit.sth.ink/', category: 'myapps' },
         { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
@@ -151,7 +151,7 @@ const iconMap = {
     // 我的应用
     'openclaw': 'fas fa-robot',
     'bitwarden': 'fas fa-key',
-    'chat': 'fas fa-comments',
+    'home': 'fas fa-home',
     'oneapi': 'fas fa-code',
     'memos': 'fas fa-sticky-note',
     'openlist': 'fas fa-list',
