@@ -91,27 +91,31 @@ deb http://mirrors.ustc.edu.cn/debian-security/ buster/updates main contrib non-
 
 ### 创建挂载和卸载shell脚本
 
-创建挂载脚本，复制以下代码保存为mount.sh，**注意：请将walter路径换成你自己的**
+创建挂载脚本，复制以下代码保存为mount.sh，**注意：请将路径换成你自己的**
 
 ```
 #!/bin/bash
-echo "MOUNTING"
-sudo mount -t proc /proc /home/walter/linux/nfs/ubuntu_rootfs/proc
-sudo mount -t sysfs /sys /home/walter/linux/nfs/ubuntu_rootfs/sys
-sudo mount -o bind /dev /home/walter/linux/nfs/ubuntu_rootfs/dev
-sudo mount -o bind /dev/pts /home/walter/linux/nfs/ubuntu_rootfs/dev/pts
-sudo chroot /home/walter/linux/nfs/ubuntu_rootfs
+ROOTFS="/opt/1panel/apps/imx6ull/projects/ubuntu_rootfs"
+echo "Mounting filesystems..."
+sudo mount -t proc /proc $ROOTFS/proc
+sudo mount -t sysfs /sys $ROOTFS/sys
+sudo mount -o bind /dev $ROOTFS/dev
+sudo mount -o bind /dev/pts $ROOTFS/dev/pts
+echo "Entering chroot (type 'exit' to leave)..."
+sudo chroot $ROOTFS /bin/bash
 ```
 
-创建挂载脚本，复制以下代码保存为unmount.sh，**注意：请将walter路径换成你自己的**
+创建卸载脚本，复制以下代码保存为unmount.sh，**注意：请将路径换成你自己的**
 
 ```
 #!/bin/bash
-echo "UNMOUNTING"
-sudo umount /home/walter/linux/nfs/ubuntu_rootfs/proc
-sudo umount /home/walter/linux/nfs/ubuntu_rootfs/sys
-sudo umount /home/walter/linux/nfs/ubuntu_rootfs/dev
-sudo umount /home/walter/linux/nfs/ubuntu_rootfs/dev/pts
+ROOTFS="/opt/1panel/apps/imx6ull/projects/ubuntu_rootfs"
+echo "Unmounting filesystems..."
+sudo umount $ROOTFS/dev/pts
+sudo umount $ROOTFS/dev
+sudo umount $ROOTFS/sys
+sudo umount $ROOTFS/proc
+echo "Done."
 ```
 
 ### 在主机挂载根文件系统
@@ -135,29 +139,39 @@ apt install language-pack-en-base
 apt install rsyslog
 apt install htop
 apt install iputils-ping
-apt install systemd            //ubuntu18必须安装systemd，不然没有串口文件
+apt install systemd            # ubuntu18必须安装systemd，不然没有串口文件
+apt install openssh-server     # SSH 服务
+apt install dhcpcd5            # DHCP 客户端（自动获取 IP）
+apt install curl wget          # 常用网络工具 
+apt install python3 python3-pip  # Python3（脚本/快速开发）
 ```
 
-### **设置root用户密码**
+### 设置root用户密码
+
+- 密码设置为root
 
 ```
 passwd root
 ```
 
-- 需要注意的是，如果只设置了root账户，可能会出现无法登录的情况，需要另添加一个用户帐户
+### 允许 root 登录（学习用方便）
+
+``` 
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+```
 
 ### 设置本机名称和IP地址
 
 ```
-echo " imx6ull"> /etc/hostname
-echo "127.0.0.1localhost" >> /etc/hosts
-echo"127.0.0.1 imx6ull" >> /etc/hosts
+echo "imx6ul" > /etc/hostname
+echo "127.0.0.1 localhost" >> /etc/hosts
+echo "127.0.0.1 imx6ul" >> /etc/hosts
 ```
 
 ### **设置串口终端**
 
 ```
-ln -s/lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttymxc0.service
+ln -s /lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/getty@ttymxc0.service
 ```
 
 ### **取消挂载**
@@ -168,7 +182,7 @@ ln -s/lib/systemd/system/getty@.service /etc/systemd/system/getty.target.wants/g
 exit
 ```
 
-退出以后再执行一下unmount.sh脚本取消挂载，命令如下：
+退出以后务必再执行一下unmount.sh脚本取消挂载，命令如下：
 
 ```
 ./unmount.sh
@@ -179,13 +193,13 @@ exit
 1、进入到ubuntu根文件系统
 
 ```
-cd/home/walter/linux/nfs/ubuntu_rootfs
+cd /home/walter/linux/nfs/ubuntu_rootfs
 ```
 
 2、打包根文件系统
 
 ```
-tar -vcjf ubuntu_rootfs.tar.bz2 *
+sudo tar -vcjf ubuntu_rootfs.tar.bz2 *
 ```
 
 ### ubuntu 根文件系统烧写
@@ -211,8 +225,6 @@ mv /var/lib/dpkg/info_old/ /var/lib/dpkg/info/
 ```
 
 提示：如果以上方法仍然有报错，建议使用命令apt update，一般情况下都能解决！
-
-- 
 
 ## 遇到的问题
 
@@ -258,8 +270,4 @@ sudo useradd username -m
 
 输入 exit 退出“$”
 
-![img](data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+)
-
 修改 /etc/passwd 文件，将sh改为bash
-
-![img](data:image/svg+xml;base64,PCEtLUFyZ29uTG9hZGluZy0tPgo8c3ZnIHdpZHRoPSIxIiBoZWlnaHQ9IjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjZmZmZmZmMDAiPjxnPjwvZz4KPC9zdmc+)
