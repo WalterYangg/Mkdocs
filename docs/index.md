@@ -138,7 +138,7 @@ const siteData = {
         { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:18274/a79793dccd', category: 'panels' },
         { id: 'frpc', name: 'Frpc', url: 'http://101.132.126.236:7400/', category: 'panels' },
         { id: 'frps', name: 'Frps', url: 'http://101.132.126.236:7500/', category: 'panels' },
-        { id: 'mihomo', name: 'Mihomo', url: 'https://metacubex.github.io/metacubexd/', category: 'panels' },
+        { id: 'mihomo', name: 'Mihomo', url: 'https://metacubex.github.io/metacubexd/', category: 'panels' }
     
     ]
 };
@@ -193,7 +193,7 @@ const iconMap = {
     // 服务面板
     'homepanel': 'fas fa-home',
     'frpc': 'fas fa-globe',
-    'frps': 'fas fa-globe'
+    'frps': 'fas fa-globe',
     'mihomo': 'fas fa-globe'
 };
 
