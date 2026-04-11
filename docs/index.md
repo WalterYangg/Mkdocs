@@ -135,9 +135,11 @@ const siteData = {
         { id: 'lceda', name: '立创EDA', url: 'https://pro.lceda.cn/editor', category: 'dev' },
     
         /* ---------- 服务面板 ---------- */
-        { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:27521/172765d467', category: 'panels' },
-        { id: 'servicespanel', name: 'ServicesPanel', url: 'http://47.122.74.70:11045/1d2d0fc2e3', category: 'panels' },
-        { id: 'homeboard', name: 'HomeBoard', url: 'https://homebt.sth.ink:11888/walter', category: 'panels' }
+        { id: 'homepanel', name: 'HomePanel', url: 'http://101.132.126.236:18274/a79793dccd', category: 'panels' },
+        { id: 'frpc', name: 'Frpc', url: 'http://101.132.126.236:7400/', category: 'panels' },
+        { id: 'frps', name: 'Frps', url: 'http://101.132.126.236:7500/', category: 'panels' },
+        { id: 'mihomo', name: 'Mihomo', url: 'https://metacubex.github.io/metacubexd/', category: 'panels' },
+    
     ]
 };
 
@@ -190,8 +192,9 @@ const iconMap = {
     
     // 服务面板
     'homepanel': 'fas fa-home',
-    'servicespanel': 'fas fa-server',
-    'homeboard': 'fas fa-tachometer-alt'
+    'frpc': 'fas fa-globe',
+    'frps': 'fas fa-globe'
+    'mihomo': 'fas fa-globe'
 };
 
 // ============================================================
