@@ -183,7 +183,7 @@ const iconMap = {
     
     // 网站论坛
     'zlibrary': 'fas fa-book',
-    'apkmirror': 'fas fa-app-store',
+    'apkmirror': 'fab fa-app-store',
     'fontawesome': 'fas fa-icons',
     'zhutix': 'fas fa-paint-brush',
     'namemc': 'fas fa-user',
