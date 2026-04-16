@@ -125,7 +125,8 @@ const siteData = {
         { id: 'linuxcool', name: 'Linux命令大全', url: 'https://www.linuxcool.com/', category: 'docs' },
     
         /* ---------- 网站论坛 ---------- */
-        { id: 'zlibrary', name: 'Zlibrary', url: 'https://zh.z-lib.gs/', category: 'forums' },
+        { id: 'zlibrary', name: 'Zlibrary', url: 'https://zh.z-library.sk/', category: 'forums' },
+        { id: 'apkmirror', name: 'APKmirror', url: 'https://www.apkmirror.com/', category: 'forums' },
         { id: 'fontawesome', name: 'Fontawesome', url: 'https://fontawesome.com/v4/icons/', category: 'forums' },
         { id: 'zhutix', name: '致美化', url: 'https://zhutix.com/', category: 'forums' },
         { id: 'namemc', name: 'NameMC', url: 'https://namemc.com/minecraft-skins', category: 'forums' },
@@ -183,6 +184,7 @@ const iconMap = {
     
     // 网站论坛
     'zlibrary': 'fas fa-book',
+    'apkmirror': 'fa-app-store',
     'fontawesome': 'fas fa-icons',
     'zhutix': 'fas fa-paint-brush',
     'namemc': 'fas fa-user',
