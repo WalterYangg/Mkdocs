@@ -79,7 +79,6 @@ panels  - 服务面板
  * 修改这里来添加/删除/修改链接和分类
  * ============================================================
  */
-
 // ---------- 分类配置 ----------
 const siteData = {
     categories: [
@@ -184,7 +183,7 @@ const iconMap = {
     
     // 网站论坛
     'zlibrary': 'fas fa-book',
-    'apkmirror': 'fa-app-store',
+    'apkmirror': 'fas fa-app-store',
     'fontawesome': 'fas fa-icons',
     'zhutix': 'fas fa-paint-brush',
     'namemc': 'fas fa-user',
