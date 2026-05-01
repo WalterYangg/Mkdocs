@@ -433,8 +433,9 @@ const iconMap = {
             return;
         }
         
-        // 批量构建 DOM
+        // 批量构建 DOM + 逐卡渐入延迟
         const fragment = document.createDocumentFragment();
+        const maxDelay = 0.25;
         
         links.forEach((link, idx) => {
             const card = document.createElement('a');
@@ -444,6 +445,7 @@ const iconMap = {
             card.rel = 'noopener noreferrer';
             card.dataset.index = idx;
             card.dataset.id = link.id;
+            card.style.animationDelay = `${Math.min(idx * 0.025, maxDelay)}s`;
             
             card.innerHTML = `
                 <div class="link-icon">

@@ -297,6 +297,16 @@ body.is-homepage .link-card {
     color: inherit;
     border: 2px solid transparent;
     position: relative;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: card-appear 0.25s ease-out forwards;
+}
+
+@keyframes card-appear {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 body.is-homepage .link-card:hover {
