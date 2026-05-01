@@ -259,23 +259,25 @@ body.is-homepage .category-btn.active {
 /* ==================== 链接网格 ==================== */
 body.is-homepage .links-section {
     margin-bottom: 40px;
-    display: none;
+    visibility: hidden;
     opacity: 0;
     transform: translateY(10px);
-    transition: opacity var(--transition-speed), transform var(--transition-speed);
+    transition: opacity var(--transition-speed), transform var(--transition-speed), visibility 0s linear var(--transition-speed);
 }
 
 body.is-homepage .links-section.active {
-    display: block;
+    visibility: visible;
     opacity: 1;
     transform: translateY(0);
+    transition: opacity var(--transition-speed), transform var(--transition-speed), visibility 0s linear 0s;
 }
 
 body.is-homepage .links-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
-    transition: opacity var(--transition-speed);
+    transition: opacity 0.25s ease;
+    will-change: opacity;
 }
 
 body.is-homepage .links-grid.fade-out {
@@ -302,8 +304,9 @@ body.is-homepage .link-card {
     border: 2px solid transparent;
     opacity: 0;
     transform: translateY(15px);
-    animation: card-appear 0.4s ease forwards;
+    animation: card-appear 0.35s ease-out forwards;
     position: relative;
+    will-change: opacity, transform;
 }
 
 @keyframes card-appear {
