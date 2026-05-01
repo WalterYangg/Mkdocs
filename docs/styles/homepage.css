@@ -261,23 +261,19 @@ body.is-homepage .links-section {
     margin-bottom: 40px;
     visibility: hidden;
     opacity: 0;
-    transform: translateY(10px);
-    transition: opacity var(--transition-speed), transform var(--transition-speed), visibility 0s linear var(--transition-speed);
+    transition: opacity var(--transition-speed), visibility 0s linear var(--transition-speed);
 }
 
 body.is-homepage .links-section.active {
     visibility: visible;
     opacity: 1;
-    transform: translateY(0);
-    transition: opacity var(--transition-speed), transform var(--transition-speed), visibility 0s linear 0s;
+    transition: opacity var(--transition-speed), visibility 0s linear 0s;
 }
 
 body.is-homepage .links-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
-    transition: opacity 0.25s ease;
-    will-change: opacity;
 }
 
 body.is-homepage .links-grid.fade-out {
@@ -299,21 +295,8 @@ body.is-homepage .link-card {
     justify-content: center;
     text-decoration: none;
     color: inherit;
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
     border: 2px solid transparent;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: card-appear 0.35s ease-out forwards;
     position: relative;
-    will-change: opacity, transform;
-}
-
-@keyframes card-appear {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 body.is-homepage .link-card:hover {

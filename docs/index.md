@@ -399,7 +399,7 @@ const iconMap = {
         });
     }
     
-    // 渲染链接
+    // 渲染链接 — 瞬时切换，无 fade-out 等待
     function renderLinks(animate = true) {
         if (!linksGrid || isAnimating) return;
         
@@ -416,23 +416,11 @@ const iconMap = {
         // 显示/隐藏
         linksSection.classList.toggle('active', !!(currentCategory || searchKeyword));
         
-        // 动画
-        if (animate) {
-            isAnimating = true;
-            linksGrid.classList.add('fade-out');
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    renderCards(filtered);
-                    linksGrid.classList.remove('fade-out');
-                    isAnimating = false;
-                });
-            });
-        } else {
-            renderCards(filtered);
-        }
+        // 直接渲染新内容，无需 fade-out 等待
+        renderCards(filtered);
     }
     
-    // 渲染卡片 — 使用 DocumentFragment 批量插入，避免逐次重排
+    // 渲染卡片 — 批量插入，无逐卡渐入
     function renderCards(links) {
         visibleCards = [];
         
@@ -445,9 +433,8 @@ const iconMap = {
             return;
         }
         
-        // 用 DocumentFragment 批量构建 DOM，只触发一次重排
+        // 批量构建 DOM
         const fragment = document.createDocumentFragment();
-        const maxDelay = 0.3; // 最大总延迟 300ms，避免卡片太多时最后一张等太久
         
         links.forEach((link, idx) => {
             const card = document.createElement('a');
@@ -457,9 +444,6 @@ const iconMap = {
             card.rel = 'noopener noreferrer';
             card.dataset.index = idx;
             card.dataset.id = link.id;
-            // 渐入动画延迟：每张 25ms，但不超过 maxDelay
-            const delay = Math.min(idx * 0.025, maxDelay);
-            card.style.animationDelay = `${delay}s`;
             
             card.innerHTML = `
                 <div class="link-icon">
@@ -473,7 +457,6 @@ const iconMap = {
             visibleCards.push(card);
         });
         
-        // 一次性清空并批量插入，只触发一次 layout
         linksGrid.replaceChildren(fragment);
         currentFocusIndex = -1;
     }
