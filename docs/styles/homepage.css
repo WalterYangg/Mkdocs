@@ -24,7 +24,6 @@
     --background-size: cover;
     --container-max-width: 1200px;
     --ui-opacity: 0.95;
-    --frequent-color: #fbbf24;
     --transition-speed: 0.3s;
 }
 
@@ -61,7 +60,7 @@ body.is-homepage .background-layer {
     background-image: var(--background-image);
     background-size: var(--background-size);
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     z-index: 0;
     transition: background-image var(--transition-speed), opacity var(--transition-speed), backdrop-filter var(--transition-speed);
     opacity: var(--background-opacity);
@@ -81,54 +80,11 @@ body.is-homepage .main-content {
     padding: 20px 0 30px;
 }
 
-/* ==================== 时钟 ==================== */
-body.is-homepage .clock-section {
-    text-align: center;
-    margin-bottom: 20px;
-    padding-top: 20px;
-}
-
-body.is-homepage .clock-section .time {
-    font-size: 48px;
-    font-weight: 200;
-    letter-spacing: 2px;
-    color: var(--md-typeset-color);
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-body.is-homepage .clock-section .date {
-    font-size: 14px;
-    color: var(--md-default-fg-color--light);
-    font-weight: 400;
-}
-
 /* ==================== 搜索区域 ==================== */
 body.is-homepage .search-section {
     margin-bottom: 40px;
     text-align: center;
-}
-
-body.is-homepage .search-title {
-    font-size: 32px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--md-typeset-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
-
-body.is-homepage .search-title .logo-icon {
-    font-size: 36px;
-}
-
-body.is-homepage .search-subtitle {
-    font-size: 15px;
-    color: var(--md-default-fg-color--light);
-    margin-bottom: 24px;
-    letter-spacing: 0.5px;
+    padding-top: 40px;
 }
 
 body.is-homepage .search-box {
@@ -170,7 +126,6 @@ body.is-homepage .search-box input:focus {
     box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.15);
 }
 
-body.is-homepage .search-box input:focus + .search-icon,
 body.is-homepage .search-box input:focus ~ .search-icon {
     color: var(--md-primary-fg-color);
 }
@@ -248,15 +203,6 @@ body.is-homepage .category-btn {
     font-size: 14px;
     position: relative;
     overflow: hidden;
-}
-
-body.is-homepage .category-btn::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--md-primary-fg-color);
-    opacity: 0;
-    transition: opacity var(--transition-speed);
 }
 
 body.is-homepage .category-btn:hover {
@@ -353,17 +299,6 @@ body.is-homepage .link-icon {
     background: linear-gradient(135deg, rgba(64, 81, 181, 0.08), rgba(64, 81, 181, 0.15));
     color: var(--md-primary-fg-color);
     transition: transform var(--transition-speed);
-    position: relative;
-}
-
-body.is-homepage .link-favicon {
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    border-radius: 4px;
-    object-fit: contain;
 }
 
 body.is-homepage .link-card:hover .link-icon {
@@ -380,15 +315,6 @@ body.is-homepage .visit-count {
     font-size: 11px;
     color: var(--md-default-fg-color--lighter);
     margin-top: 6px;
-}
-
-body.is-homepage .frequent-badge {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    color: var(--frequent-color);
-    font-size: 12px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 /* 空状态 */
@@ -543,6 +469,7 @@ body.is-homepage .bg-option.active {
     box-shadow: 0 0 0 2px rgba(64, 81, 181, 0.2);
 }
 
+/* 预设背景样式 */
 body.is-homepage .bg-option.preset-1 {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
@@ -556,22 +483,33 @@ body.is-homepage .bg-option.preset-3 {
 }
 
 body.is-homepage .bg-option.preset-4 {
-    background: #ffffff;
-    background-image: radial-gradient(circle, #4051b5 1px, transparent 1px);
+    background-color: #ffffff;
+    background-image: radial-gradient(circle at center, #4051b5 1px, transparent 1px);
     background-size: 20px 20px;
+    background-repeat: repeat;
 }
 
 body.is-homepage .bg-option.preset-5 {
-    background: #ffffff;
+    background-color: #ffffff;
     background-image: 
-        linear-gradient(90deg, transparent 24px, rgba(64, 81, 181, 0.1) 24px, rgba(64, 81, 181, 0.1) 25px, transparent 25px),
-        linear-gradient(0deg, transparent 24px, rgba(64, 81, 181, 0.1) 24px, rgba(64, 81, 181, 0.1) 25px, transparent 25px);
+        linear-gradient(90deg, transparent 24px, rgba(64, 81, 181, 0.15) 24px, rgba(64, 81, 181, 0.15) 25px, transparent 25px),
+        linear-gradient(0deg, transparent 24px, rgba(64, 81, 181, 0.15) 24px, rgba(64, 81, 181, 0.15) 25px, transparent 25px);
     background-size: 25px 25px;
+    background-repeat: repeat;
 }
 
 body.is-homepage .bg-option.preset-6 {
     background: transparent;
     border: 2px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body.is-homepage .bg-option.preset-6::after {
+    content: '×';
+    font-size: 24px;
+    color: var(--md-default-fg-color--lighter);
 }
 
 body.is-homepage .slider-container {
@@ -660,12 +598,8 @@ body.is-homepage .reset-btn:hover {
 
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 768px) {
-    body.is-homepage .clock-section .time {
-        font-size: 36px;
-    }
-    
-    body.is-homepage .search-title {
-        font-size: 24px;
+    body.is-homepage .search-section {
+        padding-top: 30px;
     }
     
     body.is-homepage .links-grid {
@@ -690,16 +624,8 @@ body.is-homepage .reset-btn:hover {
 }
 
 @media (max-width: 480px) {
-    body.is-homepage .clock-section .time {
-        font-size: 28px;
-    }
-    
-    body.is-homepage .search-title {
-        font-size: 20px;
-    }
-    
-    body.is-homepage .search-subtitle {
-        font-size: 13px;
+    body.is-homepage .search-section {
+        padding-top: 20px;
     }
     
     body.is-homepage .categories {

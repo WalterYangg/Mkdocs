@@ -7,14 +7,13 @@ hide:
 
 <!-- 
 ============================================================
-📌 导航页面维护说明 v2.0
+📌 导航页面维护说明 v2.1
 ============================================================
 最后更新：2026-05-01
 
 【如何添加新链接】
 在 siteData.links 数组中添加一行:
-{ id: '唯一ID', name: '显示名称', url: '链接地址', category: '所属分类', frequent: true }
-↑ frequent: true 可标记为常用链接（显示星标）
+{ id: '唯一ID', name: '显示名称', url: '链接地址', category: '所属分类' }
 
 【如何添加新分类】
 在 siteData.categories 数组中添加一行:
@@ -129,19 +128,8 @@ Escape   - 清空搜索/关闭面板
     <!-- 主要内容 -->
     <main class="main-content">
         <div class="container">
-            <!-- 时钟 -->
-            <div class="clock-section" id="clockSection">
-                <div class="time" id="clockTime">00:00</div>
-                <div class="date" id="clockDate">Loading...</div>
-            </div>
-
             <!-- 搜索区域 -->
             <section class="search-section">
-                <h1 class="search-title">
-                    <span class="logo-icon">🔭</span>
-                    SeekTHink
-                </h1>
-                <p class="search-subtitle">积思求索 · 你的私人导航中心</p>
                 <div class="search-box">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" id="searchInput" placeholder="搜索或输入网址... (按 / 快速聚焦)" autocomplete="off">
@@ -169,10 +157,7 @@ Escape   - 清空搜索/关闭面板
 <script>
 /**
  * ============================================================
- * 主页导航数据配置 v2.0
- * 
- * 修改这里来添加/删除/修改链接和分类
- * frequent: true 可标记为常用链接（显示★星标）
+ * 主页导航数据配置 v2.1
  * ============================================================
  */
 const siteData = {
@@ -189,8 +174,8 @@ const siteData = {
     // ---------- 链接配置 ----------
     links: [
         /* ---------- 我的应用 ---------- */
-        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps', frequent: true },
-        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps', frequent: true },
+        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
+        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps' },
         { id: 'bitwarden', name: 'Bitwarden', url: 'https://bit.sth.ink/', category: 'myapps' },
         { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
@@ -210,7 +195,7 @@ const siteData = {
         { id: 'appicon', name: 'Appicon', url: 'https://zhangyu1818.github.io/appicon-forge/', category: 'tools' },
         { id: 'removebg', name: 'Remove', url: 'https://www.remove.bg/zh', category: 'tools' },
         { id: 'canva', name: 'Canva可画', url: 'https://www.canva.cn/', category: 'tools' },
-        { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools', frequent: true },
+        { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools' },
     
         /* ---------- 参考文档 ---------- */
         { id: 'embedfire', name: '野火开发指南', url: 'https://doc.embedfire.com/linux/imx6/driver/zh/latest/index.html', category: 'docs' },
@@ -285,7 +270,7 @@ const iconMap = {
 (function() {
     'use strict';
     
-    console.log('🚀 主页导航 v2.0 初始化开始...');
+    console.log('🚀 主页导航 v2.1 初始化开始...');
     
     // 标记主页
     document.body.classList.add('is-homepage');
@@ -315,7 +300,6 @@ const iconMap = {
     
     // 访问统计 (localStorage)
     const visitCounts = JSON.parse(localStorage.getItem('nav-visit-counts') || '{}');
-    const recentVisits = JSON.parse(localStorage.getItem('nav-recent-visits') || '[]');
     let sortOrder = localStorage.getItem('nav-sort-order') || 'default';
     
     // 设置
@@ -375,41 +359,16 @@ const iconMap = {
         saveSettings();
     }
     
-    // 时钟
-    function updateClock() {
-        const now = new Date();
-        const timeEl = document.getElementById('clockTime');
-        const dateEl = document.getElementById('clockDate');
-        
-        if (timeEl) {
-            timeEl.textContent = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
-        }
-        if (dateEl) {
-            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-            dateEl.textContent = `${now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })} ${weekdays[now.getDay()]}`;
-        }
-    }
-    
     // 获取图标
     function getIconHTML(linkId) {
         const iconClass = iconMap[linkId] || iconMap['default'];
         return `<i class="${iconClass}"></i>`;
     }
     
-    // 获取 favicon
-    function getFavicon(url) {
-        const domain = new URL(url).hostname;
-        return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-    }
-    
     // 记录访问
     function recordVisit(linkId) {
         visitCounts[linkId] = (visitCounts[linkId] || 0) + 1;
         localStorage.setItem('nav-visit-counts', JSON.stringify(visitCounts));
-        
-        recentVisits.unshift({ id: linkId, time: Date.now() });
-        if (recentVisits.length > 10) recentVisits.pop();
-        localStorage.setItem('nav-recent-visits', JSON.stringify(recentVisits));
     }
     
     // 排序链接
@@ -487,7 +446,7 @@ const iconMap = {
         
         links.forEach((link, idx) => {
             const card = document.createElement('a');
-            card.className = 'link-card' + (link.frequent ? ' frequent' : '');
+            card.className = 'link-card';
             card.href = link.url;
             card.target = '_blank';
             card.rel = 'noopener noreferrer';
@@ -497,9 +456,7 @@ const iconMap = {
             
             card.innerHTML = `
                 <div class="link-icon">
-                    <img src="${getFavicon(link.url)}" alt="" class="link-favicon" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     ${getIconHTML(link.id)}
-                    ${link.frequent ? '<span class="frequent-badge" title="常用链接">★</span>' : ''}
                 </div>
                 <div class="link-name">${link.name}</div>
                 ${visitCounts[link.id] ? `<div class="visit-count" title="访问 ${visitCounts[link.id]} 次">${visitCounts[link.id]}次</div>` : ''}
@@ -706,7 +663,6 @@ const iconMap = {
             if (confirm('确定要重置所有设置吗？')) {
                 localStorage.removeItem('nav-settings');
                 localStorage.removeItem('nav-visit-counts');
-                localStorage.removeItem('nav-recent-visits');
                 localStorage.removeItem('nav-sort-order');
                 location.reload();
             }
@@ -732,14 +688,11 @@ const iconMap = {
         
         detectDarkMode();
         applySettings();
-        updateClock();
-        setInterval(updateClock, 1000);
-        
         renderCategories();
         renderLinks(false);
         setupEventListeners();
         
-        console.log('✅ 主页导航 v2.0 初始化完成');
+        console.log('✅ 主页导航 v2.1 初始化完成');
     }
     
     if (document.readyState === 'loading') {
