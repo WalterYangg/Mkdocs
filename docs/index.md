@@ -1,8 +1,9 @@
 ---
-title: 主页
+title: " "
 hide:
   - navigation
   - toc
+  - header
 ---
 
 <!-- 

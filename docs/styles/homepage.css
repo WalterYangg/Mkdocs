@@ -54,6 +54,22 @@ body.is-homepage {
     line-height: 1.5;
 }
 
+/* 隐藏页面标题 */
+body.is-homepage .md-content__inner > h1,
+body.is-homepage .md-content__inner > .md-typeset h1,
+body.is-homepage .md-content__inner > :first-child {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+body.is-homepage .md-content__inner {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
 body.is-homepage .background-layer {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
