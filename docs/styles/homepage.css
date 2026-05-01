@@ -15,7 +15,7 @@
     --md-footer-bg-color: #f5f5f5;
     --md-footer-fg-color: #666666;
     
-    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-bg: rgba(255, 255, 255, 0.92);
     --border-color: rgba(0, 0, 0, 0.08);
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     --blur-intensity: 8px;
@@ -23,7 +23,7 @@
     --background-opacity: 0.4;
     --background-size: cover;
     --container-max-width: 1200px;
-    --ui-opacity: 0.95;
+    --ui-opacity: 0.92;
     --transition-speed: 0.3s;
 }
 
@@ -38,9 +38,24 @@
     --md-footer-bg-color: #1a1a1a;
     --md-footer-fg-color: #aaaaaa;
 
-    --card-bg: rgba(30, 30, 30, 0.95);
+    --card-bg: rgba(30, 30, 30, 0.92);
     --border-color: rgba(255, 255, 255, 0.08);
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== 全局背景层 ==================== */
+body.is-homepage .background-layer {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: var(--background-image);
+    background-size: var(--background-size);
+    background-position: center;
+    background-repeat: repeat;
+    z-index: 0;
+    transition: background-image var(--transition-speed), opacity var(--transition-speed), backdrop-filter var(--transition-speed);
+    opacity: var(--background-opacity);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
 }
 
 /* ==================== 基础布局 ==================== */
@@ -70,20 +85,92 @@ body.is-homepage .md-content__inner {
     margin-top: 0 !important;
 }
 
-body.is-homepage .background-layer {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: var(--background-image);
-    background-size: var(--background-size);
-    background-position: center;
-    background-repeat: repeat;
-    z-index: 0;
-    transition: background-image var(--transition-speed), opacity var(--transition-speed), backdrop-filter var(--transition-speed);
-    opacity: var(--background-opacity);
+/* 让头部导航透明 */
+body.is-homepage .md-header {
+    background: transparent !important;
+    box-shadow: none !important;
     backdrop-filter: blur(var(--blur-intensity));
     -webkit-backdrop-filter: blur(var(--blur-intensity));
 }
 
+body.is-homepage .md-header--shadow {
+    box-shadow: none !important;
+}
+
+body.is-homepage .md-header__inner,
+body.is-homepage .md-header__option,
+body.is-homepage .md-header__source {
+    background: transparent !important;
+}
+
+/* 让标签导航透明 */
+body.is-homepage .md-tabs {
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+}
+
+body.is-homepage .md-tabs__list {
+    background: transparent !important;
+}
+
+body.is-homepage .md-tabs__item {
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    border-radius: 8px;
+    margin: 4px;
+    transition: all var(--transition-speed);
+}
+
+body.is-homepage .md-tabs__item:hover {
+    background: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.is-homepage .md-tabs__item--active {
+    background: var(--md-primary-fg-color) !important;
+    color: white !important;
+}
+
+body.is-homepage .md-tabs__link {
+    font-weight: 500;
+}
+
+/* 侧边栏透明 */
+body.is-homepage .md-sidebar {
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    background: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.is-homepage .md-nav {
+    background: transparent !important;
+}
+
+body.is-homepage .md-nav__item {
+    background: transparent !important;
+}
+
+body.is-homepage .md-nav__link {
+    background: transparent !important;
+}
+
+/* 主内容区 */
+body.is-homepage .md-content {
+    background: transparent !important;
+}
+
+body.is-homepage .md-main {
+    background: transparent !important;
+}
+
+body.is-homepage .md-main__inner {
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+/* 容器 */
 body.is-homepage .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
@@ -325,12 +412,6 @@ body.is-homepage .link-name {
     font-weight: 600;
     font-size: 14px;
     line-height: 1.3;
-}
-
-body.is-homepage .visit-count {
-    font-size: 11px;
-    color: var(--md-default-fg-color--lighter);
-    margin-top: 6px;
 }
 
 /* 空状态 */
@@ -636,6 +717,11 @@ body.is-homepage .reset-btn:hover {
         width: 42px;
         height: 42px;
         font-size: 20px;
+    }
+    
+    body.is-homepage .md-tabs__item {
+        margin: 2px;
+        padding: 4px 8px;
     }
 }
 

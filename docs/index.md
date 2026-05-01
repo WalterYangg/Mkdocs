@@ -460,7 +460,6 @@ const iconMap = {
                     ${getIconHTML(link.id)}
                 </div>
                 <div class="link-name">${link.name}</div>
-                ${visitCounts[link.id] ? `<div class="visit-count" title="访问 ${visitCounts[link.id]} 次">${visitCounts[link.id]}次</div>` : ''}
             `;
             
             card.addEventListener('click', () => recordVisit(link.id));
