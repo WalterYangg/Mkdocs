@@ -85,75 +85,10 @@ body.is-homepage .md-content__inner {
     margin-top: 0 !important;
 }
 
-/* 让头部导航透明 */
+/* ========== 头部导航 & 标签页 - 恢复 Material 默认样式 ========== */
+/* 仅确保主页头部位置正确 */
 body.is-homepage .md-header {
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
-}
-
-body.is-homepage .md-header--shadow {
-    box-shadow: none !important;
-}
-
-body.is-homepage .md-header__inner,
-body.is-homepage .md-header__option,
-body.is-homepage .md-header__source {
-    background: transparent !important;
-}
-
-/* 让标签导航透明 */
-body.is-homepage .md-tabs {
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
-}
-
-body.is-homepage .md-tabs__list {
-    background: transparent !important;
-}
-
-body.is-homepage .md-tabs__item {
-    background: rgba(255, 255, 255, 0.5) !important;
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
-    border-radius: 8px;
-    margin: 4px;
-    transition: all var(--transition-speed);
-}
-
-body.is-homepage .md-tabs__item:hover {
-    background: rgba(255, 255, 255, 0.7) !important;
-}
-
-body.is-homepage .md-tabs__item--active {
-    background: var(--md-primary-fg-color) !important;
-    color: white !important;
-}
-
-body.is-homepage .md-tabs__link {
-    font-weight: 500;
-}
-
-/* 侧边栏透明 */
-body.is-homepage .md-sidebar {
-    backdrop-filter: blur(var(--blur-intensity));
-    -webkit-backdrop-filter: blur(var(--blur-intensity));
-    background: rgba(255, 255, 255, 0.7) !important;
-}
-
-body.is-homepage .md-nav {
-    background: transparent !important;
-}
-
-body.is-homepage .md-nav__item {
-    background: transparent !important;
-}
-
-body.is-homepage .md-nav__link {
-    background: transparent !important;
+    position: relative;
 }
 
 /* 主内容区 */

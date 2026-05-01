@@ -3,7 +3,6 @@ title: " "
 hide:
   - navigation
   - toc
-  - header
 ---
 
 <!-- 
