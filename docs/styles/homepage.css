@@ -1,68 +1,5 @@
-/* ==================== Instant Navigation 修复 ==================== */
-/* 默认隐藏设置元素 */
-.settings-btn,
-.settings-panel {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-
-/* 只在主页显示 */
-body.is-homepage .settings-btn {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-body.is-homepage .settings-panel {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* ==================== 强制覆盖 Material 主题样式 ==================== */
-/* 强制设置按钮在主页显示 */
-body.is-homepage #settingsToggle {
-    position: fixed !important;
-    top: 20px !important;
-    right: 20px !important;
-    z-index: 9999 !important;
-    background: var(--md-primary-fg-color, #448aff) !important;
-    color: white !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-radius: 50% !important;
-    border: none !important;
-    cursor: pointer !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 1.5em !important;
-}
-
-/* 强制设置面板在主页显示 */
-body.is-homepage #settingsPanel {
-    z-index: 10000 !important;
-    position: fixed !important;
-    top: 0 !important;
-    right: -400px !important;
-    width: 350px !important;
-    height: 100vh !important;
-    background: var(--md-default-bg-color, white) !important;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1) !important;
-    transition: right 0.3s ease !important;
-    padding: 20px !important;
-    overflow-y: auto !important;
-}
-
-body.is-homepage #settingsPanel.active {
-    right: 0 !important;
-}
-
-/* ==================== 原样式（修正后） ==================== */
+/* ==================== 变量定义 ==================== */
 :root {
-    /* Material Design 颜色变量 - 与MkDocs默认主题匹配 */
     --md-primary-fg-color: #4051b5;
     --md-primary-fg-color--light: #5d6cc0;
     --md-primary-fg-color--dark: #303fa1;
@@ -78,15 +15,17 @@ body.is-homepage #settingsPanel.active {
     --md-footer-bg-color: #f5f5f5;
     --md-footer-fg-color: #666666;
     
-    /* 导航页自定义变量 */
     --card-bg: rgba(255, 255, 255, 0.95);
     --border-color: rgba(0, 0, 0, 0.08);
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     --blur-intensity: 8px;
     --background-image: url('/images/backgrounds/bg_1.png');
     --background-opacity: 0.4;
+    --background-size: cover;
     --container-max-width: 1200px;
     --ui-opacity: 0.95;
+    --frequent-color: #fbbf24;
+    --transition-speed: 0.3s;
 }
 
 [data-md-color-scheme="slate"] {
@@ -105,185 +44,267 @@ body.is-homepage #settingsPanel.active {
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* ==================== 主页样式（只在 is-homepage 时应用） ==================== */
+/* ==================== 基础布局 ==================== */
 body.is-homepage {
-    font-family: 'Noto Sans SC', sans-serif;
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-color: transparent;
     color: var(--md-typeset-color);
     min-height: 100vh;
-    transition: background-color 0.3s, color 0.3s;
-    position: relative; background: transparent;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    position: relative;
     line-height: 1.5;
 }
 
 body.is-homepage .background-layer {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: var(--background-image) !important;
-    backdrop-filter: blur(var(--blur-intensity));
-    background-size: cover;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: var(--background-image);
+    background-size: var(--background-size);
     background-position: center;
     background-repeat: no-repeat;
     z-index: 0;
-    transition: background-image 0.5s ease, opacity 0.5s ease, backdrop-filter 0.3s ease;
+    transition: background-image var(--transition-speed), opacity var(--transition-speed), backdrop-filter var(--transition-speed);
     opacity: var(--background-opacity);
-}
-
-/* 设置按钮样式 - 只在主页生效 */
-body.is-homepage #settingsToggle {
-    background: rgba(255, 255, 255, var(--ui-opacity));
-    border: 1px solid var(--border-color);
-    color: var(--md-typeset-color);
-    font-size: 16px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: all 0.3s;
     backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
 }
 
-body.is-homepage #settingsToggle:hover {
-    background: var(--md-primary-fg-color);
-    color: white;
-    transform: scale(1.05);
-}
-
-/* 统一容器样式 */
 body.is-homepage .container {
     max-width: var(--container-max-width);
     margin: 0 auto;
     padding: 0 20px;
+    position: relative;
+    z-index: 1;
 }
 
-/* 主要内容区域 */
 body.is-homepage .main-content {
-    padding: 60px 0 30px;
+    padding: 20px 0 30px;
 }
 
-/* 搜索区域 */
+/* ==================== 时钟 ==================== */
+body.is-homepage .clock-section {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+body.is-homepage .clock-section .time {
+    font-size: 48px;
+    font-weight: 200;
+    letter-spacing: 2px;
+    color: var(--md-typeset-color);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+body.is-homepage .clock-section .date {
+    font-size: 14px;
+    color: var(--md-default-fg-color--light);
+    font-weight: 400;
+}
+
+/* ==================== 搜索区域 ==================== */
 body.is-homepage .search-section {
     margin-bottom: 40px;
     text-align: center;
 }
 
 body.is-homepage .search-title {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     color: var(--md-typeset-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+body.is-homepage .search-title .logo-icon {
+    font-size: 36px;
 }
 
 body.is-homepage .search-subtitle {
     font-size: 15px;
     color: var(--md-default-fg-color--light);
-    margin-bottom: 25px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
 }
 
 body.is-homepage .search-box {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    position: relative; background: transparent;
+    position: relative;
+}
+
+body.is-homepage .search-box .search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--md-default-fg-color--lighter);
+    font-size: 16px;
+    pointer-events: none;
+    transition: color var(--transition-speed);
 }
 
 body.is-homepage .search-box input {
     width: 100%;
-    padding: 14px 20px;
+    padding: 14px 20px 14px 48px;
     border-radius: 24px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, var(--ui-opacity));
+    border: 2px solid var(--border-color);
+    background-color: var(--card-bg);
     color: var(--md-typeset-color);
     font-size: 15px;
     box-shadow: var(--shadow);
-    transition: all 0.3s;
+    transition: all var(--transition-speed);
     backdrop-filter: blur(var(--blur-intensity));
-    font-family: 'Noto Sans SC', sans-serif;
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    font-family: inherit;
 }
 
 body.is-homepage .search-box input:focus {
     outline: none;
     border-color: var(--md-primary-fg-color);
-    box-shadow: 0 0 0 2px rgba(64, 81, 181, 0.1);
+    box-shadow: 0 0 0 3px rgba(64, 81, 181, 0.15);
 }
 
-/* 分类区域 */
+body.is-homepage .search-box input:focus + .search-icon,
+body.is-homepage .search-box input:focus ~ .search-icon {
+    color: var(--md-primary-fg-color);
+}
+
+/* 搜索建议 */
+body.is-homepage .search-suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0; right: 0;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    display: none;
+    z-index: 100;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+body.is-homepage .search-suggestions .suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+    font-size: 14px;
+}
+
+body.is-homepage .search-suggestions .suggestion-item:hover {
+    background: rgba(64, 81, 181, 0.08);
+}
+
+body.is-homepage .search-suggestions .suggestion-item i {
+    width: 20px;
+    color: var(--md-primary-fg-color);
+    font-size: 14px;
+}
+
+body.is-homepage .search-suggestions .suggestion-url {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--md-default-fg-color--lighter);
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ==================== 分类区域 ==================== */
 body.is-homepage .categories-section {
     margin-bottom: 30px;
 }
 
-body.is-homepage .section-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: var(--md-typeset-color);
-    text-align: center;
-}
-
 body.is-homepage .categories {
     display: flex;
-    gap: 8px;
+    gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 body.is-homepage .category-btn {
-    padding: 8px 16px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, var(--ui-opacity));
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 2px solid var(--border-color);
+    background-color: var(--card-bg);
     color: var(--md-typeset-color);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all var(--transition-speed);
     backdrop-filter: blur(var(--blur-intensity));
-    font-family: 'Noto Sans SC', sans-serif;
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    font-family: inherit;
     font-weight: 500;
     font-size: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+body.is-homepage .category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--md-primary-fg-color);
+    opacity: 0;
+    transition: opacity var(--transition-speed);
 }
 
 body.is-homepage .category-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(64, 81, 181, 0.15);
 }
 
 body.is-homepage .category-btn.active {
     background-color: var(--md-primary-fg-color);
     color: white;
     border-color: var(--md-primary-fg-color);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(64, 81, 181, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(64, 81, 181, 0.3);
 }
 
-/* 链接网格 */
+/* ==================== 链接网格 ==================== */
 body.is-homepage .links-section {
     margin-bottom: 40px;
     display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity var(--transition-speed), transform var(--transition-speed);
 }
 
 body.is-homepage .links-section.active {
     display: block;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 body.is-homepage .links-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-speed);
 }
 
 body.is-homepage .links-grid.fade-out {
     opacity: 0;
 }
 
+/* 卡片样式 */
 body.is-homepage .link-card {
-    background-color: rgba(255, 255, 255, var(--ui-opacity));
-    border-radius: 10px;
-    padding: 20px 16px;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 24px 16px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed), border-color var(--transition-speed);
     cursor: pointer;
     text-align: center;
     display: flex;
@@ -293,10 +314,12 @@ body.is-homepage .link-card {
     text-decoration: none;
     color: inherit;
     backdrop-filter: blur(var(--blur-intensity));
-    border: 1px solid var(--border-color);
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    border: 2px solid transparent;
     opacity: 0;
     transform: translateY(15px);
-    animation: card-appear 0.5s ease forwards;
+    animation: card-appear 0.4s ease forwards;
+    position: relative;
 }
 
 @keyframes card-appear {
@@ -307,69 +330,154 @@ body.is-homepage .link-card {
 }
 
 body.is-homepage .link-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    background-color: rgba(255, 255, 255, 0.98);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-color: var(--md-primary-fg-color);
 }
 
-[data-md-color-scheme="slate"] body.is-homepage .link-card:hover {
-    background-color: rgba(40, 40, 40, 0.98);
+body.is-homepage .link-card.keyboard-focused {
+    outline: 3px solid var(--md-primary-fg-color);
+    outline-offset: 2px;
+    transform: translateY(-2px);
 }
 
 body.is-homepage .link-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 12px;
-    font-size: 20px;
-    background-color: rgba(64, 81, 181, 0.08);
+    font-size: 22px;
+    background: linear-gradient(135deg, rgba(64, 81, 181, 0.08), rgba(64, 81, 181, 0.15));
     color: var(--md-primary-fg-color);
-    transition: transform 0.3s;
+    transition: transform var(--transition-speed);
+    position: relative;
+}
+
+body.is-homepage .link-favicon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border-radius: 4px;
+    object-fit: contain;
 }
 
 body.is-homepage .link-card:hover .link-icon {
-    transform: scale(1.05);
-    background-color: rgba(64, 81, 181, 0.12);
+    transform: scale(1.08);
 }
 
 body.is-homepage .link-name {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 14px;
+    line-height: 1.3;
 }
 
-/* 页脚 */
-body.is-homepage .footer {
-    margin-top: 50px;
+body.is-homepage .visit-count {
+    font-size: 11px;
+    color: var(--md-default-fg-color--lighter);
+    margin-top: 6px;
+}
+
+body.is-homepage .frequent-badge {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    color: var(--frequent-color);
+    font-size: 12px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* 空状态 */
+body.is-homepage .empty-state {
+    grid-column: 1 / -1;
     text-align: center;
-    font-size: 13px;
+    padding: 60px 20px;
     color: var(--md-default-fg-color--light);
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
 }
 
-/* 设置面板详细样式 */
-body.is-homepage #settingsPanel {
-    background-color: rgba(255, 255, 255, var(--ui-opacity));
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+body.is-homepage .empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--md-default-fg-color--lighter);
+}
+
+body.is-homepage .empty-state p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* ==================== 设置面板 ==================== */
+body.is-homepage .settings-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background: var(--card-bg);
+    color: var(--md-typeset-color);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+body.is-homepage .settings-btn:hover {
+    background: var(--md-primary-fg-color);
+    color: white;
+    transform: rotate(45deg) scale(1.05);
+}
+
+body.is-homepage .settings-panel {
+    position: fixed;
+    top: 0;
+    right: -380px;
+    width: 360px;
+    height: 100vh;
+    background: var(--card-bg);
+    box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+    backdrop-filter: blur(var(--blur-intensity));
+    -webkit-backdrop-filter: blur(var(--blur-intensity));
+    transition: right var(--transition-speed);
+    z-index: 1001;
+    overflow-y: auto;
+    padding: 0;
+}
+
+body.is-homepage .settings-panel.active {
+    right: 0;
 }
 
 body.is-homepage .settings-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
+    padding: 24px;
     border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: inherit;
+    z-index: 1;
 }
 
 body.is-homepage .settings-title {
+    margin: 0;
     font-size: 18px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 body.is-homepage .close-settings {
@@ -378,52 +486,65 @@ body.is-homepage .close-settings {
     font-size: 20px;
     color: var(--md-typeset-color);
     cursor: pointer;
-    transition: transform 0.3s;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-speed);
 }
 
 body.is-homepage .close-settings:hover {
+    background: rgba(0,0,0,0.05);
     transform: rotate(90deg);
 }
 
-body.is-homepage .settings-section {
-    margin-bottom: 20px;
+body.is-homepage .settings-body {
+    padding: 24px;
 }
 
-body.is-homepage .settings-section h3 {
-    margin-bottom: 12px;
-    font-size: 15px;
+body.is-homepage .settings-section {
+    margin-bottom: 28px;
+}
+
+body.is-homepage .settings-section h4 {
+    margin: 0 0 14px 0;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--md-primary-fg-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 body.is-homepage .background-options {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 12px;
 }
 
 body.is-homepage .bg-option {
     aspect-ratio: 1;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.2s;
-    position: relative; background: transparent;
+    border: 3px solid transparent;
+    transition: all var(--transition-speed);
+    position: relative;
     overflow: hidden;
 }
 
 body.is-homepage .bg-option:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 body.is-homepage .bg-option.active {
     border-color: var(--md-primary-fg-color);
-    box-shadow: 0 0 0 1px rgba(64, 81, 181, 0.2);
+    box-shadow: 0 0 0 2px rgba(64, 81, 181, 0.2);
 }
 
-/* 极简主义背景选项 */
 body.is-homepage .bg-option.preset-1 {
-    background: #ffffff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 body.is-homepage .bg-option.preset-2 {
@@ -431,202 +552,191 @@ body.is-homepage .bg-option.preset-2 {
 }
 
 body.is-homepage .bg-option.preset-3 {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
 body.is-homepage .bg-option.preset-4 {
-    background: linear-gradient(135deg, #e3e9f7 0%, #ffffff 100%);
+    background: #ffffff;
+    background-image: radial-gradient(circle, #4051b5 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
 body.is-homepage .bg-option.preset-5 {
     background: #ffffff;
     background-image: 
-        radial-gradient(circle at 25% 25%, rgba(64, 81, 181, 0.03) 10%, transparent 20%),
-        radial-gradient(circle at 75% 75%, rgba(64, 81, 181, 0.03) 10%, transparent 20%);
-}
-
-body.is-homepage .bg-option.preset-6 {
-    background: #ffffff;
-    background-image: 
-        linear-gradient(90deg, transparent 24px, rgba(64, 81, 181, 0.02) 24px, rgba(64, 81, 181, 0.02) 25px, transparent 25px),
-        linear-gradient(0deg, transparent 24px, rgba(64, 81, 181, 0.02) 24px, rgba(64, 81, 181, 0.02) 25px, transparent 25px);
+        linear-gradient(90deg, transparent 24px, rgba(64, 81, 181, 0.1) 24px, rgba(64, 81, 181, 0.1) 25px, transparent 25px),
+        linear-gradient(0deg, transparent 24px, rgba(64, 81, 181, 0.1) 24px, rgba(64, 81, 181, 0.1) 25px, transparent 25px);
     background-size: 25px 25px;
 }
 
-body.is-homepage .custom-bg-input {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-body.is-homepage .custom-bg-input input {
-    flex: 1;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    background-color: rgba(255, 255, 255, var(--ui-opacity));
-    color: var(--md-typeset-color);
-    transition: all 0.3s;
-    font-family: 'Noto Sans SC', sans-serif;
-    font-size: 14px;
-}
-
-body.is-homepage .custom-bg-input input:focus {
-    outline: none;
-    border-color: var(--md-primary-fg-color);
-    box-shadow: 0 0 0 2px rgba(64, 81, 181, 0.1);
-}
-
-body.is-homepage .custom-bg-input button {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: none;
-    background-color: var(--md-primary-fg-color);
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Noto Sans SC', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-}
-
-body.is-homepage .custom-bg-input button:hover {
-    background-color: var(--md-primary-fg-color--dark);
-    transform: translateY(-1px);
+body.is-homepage .bg-option.preset-6 {
+    background: transparent;
+    border: 2px dashed var(--border-color);
 }
 
 body.is-homepage .slider-container {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 
 body.is-homepage .slider-label {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 4px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--md-default-fg-color--light);
 }
 
 body.is-homepage .slider {
     width: 100%;
-    height: 4px;
-    border-radius: 4px;
+    height: 6px;
+    border-radius: 3px;
     background: var(--border-color);
     outline: none;
     -webkit-appearance: none;
     appearance: none;
-    transition: background 0.3s;
+    transition: background var(--transition-speed);
 }
 
 body.is-homepage .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: var(--md-primary-fg-color);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all var(--transition-speed);
+    box-shadow: 0 2px 6px rgba(64, 81, 181, 0.3);
 }
 
 body.is-homepage .slider::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 2px rgba(64, 81, 181, 0.2);
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(64, 81, 181, 0.4);
 }
 
-body.is-homepage .reset-btn {
-    padding: 10px 12px;
-    border-radius: 6px;
-    border: none;
-    background-color: #ff4757;
-    color: white;
+body.is-homepage .sort-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+body.is-homepage .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Noto Sans SC', sans-serif;
-    font-weight: 500;
-    width: 100%;
     font-size: 14px;
 }
 
+body.is-homepage .radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--md-primary-fg-color);
+    cursor: pointer;
+}
+
+body.is-homepage .reset-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 body.is-homepage .reset-btn:hover {
-    background-color: #ff3742;
-    transform: translateY(-1px);
-}
-
-/* 空状态样式 */
-body.is-homepage .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 50px 20px;
-    color: var(--md-default-fg-color--light);
-}
-
-body.is-homepage .empty-state i {
-    font-size: 40px;
-    margin-bottom: 12px;
-    color: var(--md-default-fg-color--lighter);
-}
-
-body.is-homepage .empty-state p {
-    font-size: 16px;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255, 71, 87, 0.3);
 }
 
 /* ==================== 响应式设计 ==================== */
 @media (max-width: 768px) {
-    body.is-homepage .links-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    body.is-homepage .clock-section .time {
+        font-size: 36px;
     }
     
-    body.is-homepage #settingsPanel {
+    body.is-homepage .search-title {
+        font-size: 24px;
+    }
+    
+    body.is-homepage .links-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+    }
+    
+    body.is-homepage .settings-panel {
         width: 100%;
         right: -100%;
+    }
+    
+    body.is-homepage .link-card {
+        padding: 20px 12px;
+    }
+    
+    body.is-homepage .link-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 20px;
     }
 }
 
 @media (max-width: 480px) {
+    body.is-homepage .clock-section .time {
+        font-size: 28px;
+    }
+    
     body.is-homepage .search-title {
-        font-size: 22px;
+        font-size: 20px;
+    }
+    
+    body.is-homepage .search-subtitle {
+        font-size: 13px;
     }
     
     body.is-homepage .categories {
-        justify-content: center;
+        gap: 6px;
+    }
+    
+    body.is-homepage .category-btn {
+        padding: 6px 12px;
+        font-size: 13px;
     }
     
     body.is-homepage .links-grid {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+    }
+    
+    body.is-homepage .link-card {
+        padding: 16px 8px;
+    }
+    
+    body.is-homepage .link-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    body.is-homepage .link-name {
+        font-size: 12px;
     }
 }
 
-/* ==================== 移除冗余和冲突的样式 ==================== */
-/* 删除以下部分，因为它们已经包含在 body.is-homepage 选择器中 */
-/* 
-.settings-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    ...
-}
-
-.settings-panel {
-    position: fixed;
-    top: 0;
-    right: -400px;
-    ...
-}
-*/
-
-/* ==================== 确保 Material 主题兼容性 ==================== */
-/* 防止 Material 主题隐藏我们的元素 */
-body.is-homepage .md-content #settingsToggle,
-body.is-homepage .md-content #settingsPanel {
-    display: inherit !important;
-}
-
-/* 处理 Material 主题的过渡动画 */
-body.is-homepage .md-content {
-    position: relative; background: transparent;
-}
-
-/* 确保背景层在主题切换时保持 */
-body.is-homepage .background-layer {
-    transition: background-image 0.3s ease, opacity 0.3s ease;
+/* ==================== 动画优化 ==================== */
+@media (prefers-reduced-motion: reduce) {
+    body.is-homepage * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }

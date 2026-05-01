@@ -7,12 +7,14 @@ hide:
 
 <!-- 
 ============================================================
-📌 导航页面维护说明
+📌 导航页面维护说明 v2.0
 ============================================================
+最后更新：2026-05-01
 
 【如何添加新链接】
 在 siteData.links 数组中添加一行:
-{ id: '唯一ID', name: '显示名称', url: '链接地址', category: '所属分类' }
+{ id: '唯一ID', name: '显示名称', url: '链接地址', category: '所属分类', frequent: true }
+↑ frequent: true 可标记为常用链接（显示星标）
 
 【如何添加新分类】
 在 siteData.categories 数组中添加一行:
@@ -33,30 +35,123 @@ panels  - 服务面板
 
 【背景图片】
 修改 docs/styles/homepage.css 中的 --background-image 变量
+
+【快捷键】
+/        - 聚焦搜索框
+Escape   - 清空搜索/关闭面板
+←→↑↓    - 卡片网格导航
 ============================================================
 -->
 
-<!-- 添加FontAwesome图标库 -->
+<!-- FontAwesome 图标库 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <div class="homepage-container">
     <!-- 背景层 -->
     <div class="background-layer" id="backgroundLayer"></div>
 
+    <!-- 设置按钮 -->
+    <button id="settingsToggle" class="settings-btn" aria-label="设置" title="设置">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- 设置面板 -->
+    <div id="settingsPanel" class="settings-panel">
+        <div class="settings-header">
+            <h3 class="settings-title"><i class="fas fa-palette"></i> 外观设置</h3>
+            <button id="closeSettings" class="close-settings" aria-label="关闭"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="settings-body">
+            <!-- 背景选择 -->
+            <div class="settings-section">
+                <h4>背景风格</h4>
+                <div class="background-options">
+                    <div class="bg-option preset-1 active" data-bg="default" title="默认背景"></div>
+                    <div class="bg-option preset-2" data-bg="solid" title="纯色背景"></div>
+                    <div class="bg-option preset-3" data-bg="gradient" title="渐变背景"></div>
+                    <div class="bg-option preset-4" data-bg="dots" title="点阵背景"></div>
+                    <div class="bg-option preset-5" data-bg="grid" title="网格背景"></div>
+                    <div class="bg-option preset-6" data-bg="none" title="无背景"></div>
+                </div>
+            </div>
+
+            <!-- 背景透明度 -->
+            <div class="settings-section">
+                <h4>背景透明度</h4>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>透明</span>
+                        <span id="bgOpacityValue">40%</span>
+                        <span>清晰</span>
+                    </div>
+                    <input type="range" id="bgOpacity" class="slider" min="0" max="100" value="40">
+                </div>
+            </div>
+
+            <!-- 模糊强度 -->
+            <div class="settings-section">
+                <h4>毛玻璃强度</h4>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>无</span>
+                        <span id="blurValueValue">8px</span>
+                        <span>强</span>
+                    </div>
+                    <input type="range" id="blurIntensity" class="slider" min="0" max="20" value="8">
+                </div>
+            </div>
+
+            <!-- 排序方式 -->
+            <div class="settings-section">
+                <h4>链接排序</h4>
+                <div class="sort-options">
+                    <label class="radio-option">
+                        <input type="radio" name="sort" value="default" checked>
+                        <span>默认顺序</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="sort" value="frequent">
+                        <span>按访问频率</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 重置按钮 -->
+            <div class="settings-section">
+                <button id="resetSettings" class="reset-btn">
+                    <i class="fas fa-undo"></i> 重置所有设置
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 主要内容 -->
     <main class="main-content">
         <div class="container">
+            <!-- 时钟 -->
+            <div class="clock-section" id="clockSection">
+                <div class="time" id="clockTime">00:00</div>
+                <div class="date" id="clockDate">Loading...</div>
+            </div>
+
             <!-- 搜索区域 -->
             <section class="search-section">
-                <h1 class="search-title">  </h1>  <!-- 首页标题-->
+                <h1 class="search-title">
+                    <span class="logo-icon">🔭</span>
+                    SeekTHink
+                </h1>
+                <p class="search-subtitle">积思求索 · 你的私人导航中心</p>
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="搜索或输入网址..." autocomplete="off">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="搜索或输入网址... (按 / 快速聚焦)" autocomplete="off">
+                    <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
             </section>
     
             <!-- 分类区域 -->
             <section class="categories-section">
-                <div class="categories" id="categories">
+                <div class="categories" id="categories" role="tablist">
                     <!-- 分类按钮将通过JS动态生成 -->
                 </div>
             </section>
@@ -74,13 +169,14 @@ panels  - 服务面板
 <script>
 /**
  * ============================================================
- * 主页导航数据配置
+ * 主页导航数据配置 v2.0
  * 
  * 修改这里来添加/删除/修改链接和分类
+ * frequent: true 可标记为常用链接（显示★星标）
  * ============================================================
  */
-// ---------- 分类配置 ----------
 const siteData = {
+    // ---------- 分类配置 ----------
     categories: [
         { id: 'myapps', name: '我的应用' },
         { id: 'tools', name: '在线工具' },
@@ -91,11 +187,10 @@ const siteData = {
     ],
 
     // ---------- 链接配置 ----------
-    // 格式: { id: '唯一标识', name: '显示名称', url: '网址', category: '分类ID' }
     links: [
         /* ---------- 我的应用 ---------- */
-        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
-        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps' },
+        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps', frequent: true },
+        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps', frequent: true },
         { id: 'bitwarden', name: 'Bitwarden', url: 'https://bit.sth.ink/', category: 'myapps' },
         { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
@@ -115,7 +210,7 @@ const siteData = {
         { id: 'appicon', name: 'Appicon', url: 'https://zhangyu1818.github.io/appicon-forge/', category: 'tools' },
         { id: 'removebg', name: 'Remove', url: 'https://www.remove.bg/zh', category: 'tools' },
         { id: 'canva', name: 'Canva可画', url: 'https://www.canva.cn/', category: 'tools' },
-        { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools' },
+        { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', category: 'tools', frequent: true },
     
         /* ---------- 参考文档 ---------- */
         { id: 'embedfire', name: '野火开发指南', url: 'https://doc.embedfire.com/linux/imx6/driver/zh/latest/index.html', category: 'docs' },
@@ -140,18 +235,12 @@ const siteData = {
         { id: 'frps', name: 'Frps', url: 'http://101.132.126.236:7500/', category: 'panels' },
         { id: 'wireguard', name: 'WireGuard', url: 'http://192.168.10.12:51821/', category: 'panels' },
         { id: 'mihomo', name: 'Mihomo', url: 'https://metacubex.github.io/metacubexd/', category: 'panels' }
-    
     ]
 };
 
 // ---------- 图标配置 ----------
-// 格式: '链接ID': 'FontAwesome图标类名'
-// 默认图标: 'default': 'fas fa-globe'
 const iconMap = {
     'default': 'fas fa-globe',
-    
-
-    // 我的应用
     'openclaw': 'fas fa-robot',
     'bitwarden': 'fas fa-key',
     'home': 'fas fa-home',
@@ -164,8 +253,6 @@ const iconMap = {
     'npm': 'fab fa-npm',
     'stirlingpdf': 'fas fa-file-pdf',
     'lsky': 'fas fa-image',
-    
-    // 在线工具
     'lkssite': 'fas fa-tools',
     'visionon': 'fas fa-eye',
     'helloworld': 'fas fa-code',
@@ -174,206 +261,487 @@ const iconMap = {
     'removebg': 'fas fa-eraser',
     'canva': 'fas fa-palette',
     'chatgpt': 'fas fa-robot',
-    
-    // 参考文档
     'embedfire': 'fas fa-book-open',
     'micropython': 'fas fa-microchip',
     'lvgl': 'fas fa-desktop',
     'linuxcool': 'fas fa-terminal',
-    
-    // 网站论坛
     'zlibrary': 'fas fa-book',
     'apkmirror': 'fab fa-app-store',
     'fontawesome': 'fas fa-icons',
     'zhutix': 'fas fa-paint-brush',
     'namemc': 'fas fa-user',
-    
-    // 技术开发
     'oshwhub': 'fas fa-microchip',
     'lceda': 'fas fa-project-diagram',
-    
-    // 服务面板
     'homepanel': 'fas fa-home',
     'frpc': 'fas fa-globe',
     'frps': 'fas fa-globe',
-    'wireguard': 'fas fa-globe',
-    'mihomo': 'fas fa-globe'
+    'wireguard': 'fas fa-shield-alt',
+    'mihomo': 'fas fa-network-wired'
 };
 
 // ============================================================
-// 以下为代码逻辑，请勿随意修改
+// 核心逻辑
 // ============================================================
-
 (function() {
-    console.log('主页功能初始化开始...');
-
-    // 添加主页标识
+    'use strict';
+    
+    console.log('🚀 主页导航 v2.0 初始化开始...');
+    
+    // 标记主页
     document.body.classList.add('is-homepage');
     
-    // 获取DOM元素
+    // DOM 元素
     const categoriesContainer = document.getElementById('categories');
     const linksGrid = document.getElementById('linksGrid');
     const linksSection = document.getElementById('linksSection');
     const searchInput = document.getElementById('searchInput');
+    const searchSuggestions = document.getElementById('searchSuggestions');
     const backgroundLayer = document.getElementById('backgroundLayer');
+    const settingsToggle = document.getElementById('settingsToggle');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const closeSettings = document.getElementById('closeSettings');
+    const resetSettings = document.getElementById('resetSettings');
+    const bgOpacity = document.getElementById('bgOpacity');
+    const blurIntensity = document.getElementById('blurIntensity');
+    const bgOpacityValue = document.getElementById('bgOpacityValue');
+    const blurValueValue = document.getElementById('blurValueValue');
     
-    // 状态变量
+    // 状态
     let currentCategory = '';
     let searchKeyword = '';
     let isAnimating = false;
+    let currentFocusIndex = -1;
+    let visibleCards = [];
     
-    // 渲染分类
-    function renderCategories() {
-        if (!categoriesContainer) return;
+    // 访问统计 (localStorage)
+    const visitCounts = JSON.parse(localStorage.getItem('nav-visit-counts') || '{}');
+    const recentVisits = JSON.parse(localStorage.getItem('nav-recent-visits') || '[]');
+    let sortOrder = localStorage.getItem('nav-sort-order') || 'default';
+    
+    // 设置
+    const settings = JSON.parse(localStorage.getItem('nav-settings') || '{}');
+    
+    // 应用设置
+    function applySettings() {
+        if (settings.bgStyle) {
+            applyBackgroundStyle(settings.bgStyle);
+        }
+        if (settings.bgOpacity !== undefined) {
+            bgOpacity.value = settings.bgOpacity;
+            bgOpacityValue.textContent = settings.bgOpacity + '%';
+            document.documentElement.style.setProperty('--background-opacity', settings.bgOpacity / 100);
+        }
+        if (settings.blurIntensity !== undefined) {
+            blurIntensity.value = settings.blurIntensity;
+            blurValueValue.textContent = settings.blurIntensity + 'px';
+            document.documentElement.style.setProperty('--blur-intensity', settings.blurIntensity + 'px');
+        }
+        if (settings.sortOrder) {
+            sortOrder = settings.sortOrder;
+            document.querySelector(`input[name="sort"][value="${sortOrder}"]`).checked = true;
+        }
+    }
+    
+    // 保存设置
+    function saveSettings() {
+        localStorage.setItem('nav-settings', JSON.stringify(settings));
+    }
+    
+    // 背景样式
+    function applyBackgroundStyle(style) {
+        const root = document.documentElement;
+        const bgMap = {
+            'default': 'url(\'/images/backgrounds/bg_1.png\')',
+            'solid': '#f8f9fa',
+            'gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            'dots': 'radial-gradient(circle, #4051b5 1px, transparent 1px)',
+            'grid': 'linear-gradient(90deg, transparent 24px, rgba(64, 81, 181, 0.05) 24px, rgba(64, 81, 181, 0.05) 25px, transparent 25px), linear-gradient(0deg, transparent 24px, rgba(64, 81, 181, 0.05) 24px, rgba(64, 81, 181, 0.05) 25px, transparent 25px)',
+            'none': 'none'
+        };
         
-        categoriesContainer.innerHTML = '';
+        root.style.setProperty('--background-image', bgMap[style] || bgMap['default']);
         
-        siteData.categories.forEach(function(category) {
-            const button = document.createElement('button');
-            button.className = 'category-btn ' + (category.id === currentCategory ? 'active' : '');
-            button.textContent = category.name;
-            button.dataset.category = category.id;
-            categoriesContainer.appendChild(button);
-        });
+        if (style === 'dots') {
+            root.style.setProperty('--background-size', '20px 20px');
+        } else if (style === 'grid') {
+            root.style.setProperty('--background-size', '25px 25px');
+        } else {
+            root.style.setProperty('--background-size', 'cover');
+        }
+        
+        document.querySelectorAll('.bg-option').forEach(el => el.classList.remove('active'));
+        document.querySelector(`.bg-option[data-bg="${style}"]`)?.classList.add('active');
+        settings.bgStyle = style;
+        saveSettings();
+    }
+    
+    // 时钟
+    function updateClock() {
+        const now = new Date();
+        const timeEl = document.getElementById('clockTime');
+        const dateEl = document.getElementById('clockDate');
+        
+        if (timeEl) {
+            timeEl.textContent = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+        }
+        if (dateEl) {
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            dateEl.textContent = `${now.toLocaleDateString('zh-CN', { month: 'long', day: 'numeric' })} ${weekdays[now.getDay()]}`;
+        }
     }
     
     // 获取图标
     function getIconHTML(linkId) {
         const iconClass = iconMap[linkId] || iconMap['default'];
-        return '<i class="' + iconClass + '"></i>';
+        return `<i class="${iconClass}"></i>`;
+    }
+    
+    // 获取 favicon
+    function getFavicon(url) {
+        const domain = new URL(url).hostname;
+        return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+    }
+    
+    // 记录访问
+    function recordVisit(linkId) {
+        visitCounts[linkId] = (visitCounts[linkId] || 0) + 1;
+        localStorage.setItem('nav-visit-counts', JSON.stringify(visitCounts));
+        
+        recentVisits.unshift({ id: linkId, time: Date.now() });
+        if (recentVisits.length > 10) recentVisits.pop();
+        localStorage.setItem('nav-recent-visits', JSON.stringify(recentVisits));
+    }
+    
+    // 排序链接
+    function sortLinks(links) {
+        if (sortOrder === 'frequent') {
+            return [...links].sort((a, b) => {
+                const aCount = visitCounts[a.id] || 0;
+                const bCount = visitCounts[b.id] || 0;
+                return bCount - aCount;
+            });
+        }
+        return links;
+    }
+    
+    // 渲染分类
+    function renderCategories() {
+        if (!categoriesContainer) return;
+        categoriesContainer.innerHTML = '';
+        
+        siteData.categories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = 'category-btn' + (cat.id === currentCategory ? ' active' : '');
+            btn.textContent = cat.name;
+            btn.dataset.category = cat.id;
+            btn.setAttribute('role', 'tab');
+            btn.setAttribute('aria-selected', cat.id === currentCategory);
+            categoriesContainer.appendChild(btn);
+        });
     }
     
     // 渲染链接
-    function renderLinks(animate) {
-        if (!linksGrid) return;
-        if (isAnimating) return;
+    function renderLinks(animate = true) {
+        if (!linksGrid || isAnimating) return;
         
-        animate = animate !== false;
+        let filtered = siteData.links.filter(link => {
+            const matchCat = !currentCategory || link.category === currentCategory;
+            const matchSearch = !searchKeyword || 
+                link.name.toLowerCase().includes(searchKeyword) ||
+                link.url.toLowerCase().includes(searchKeyword);
+            return matchCat && matchSearch;
+        });
         
+        filtered = sortLinks(filtered);
+        
+        // 显示/隐藏
+        linksSection.classList.toggle('active', !!(currentCategory || searchKeyword));
+        
+        // 动画
         if (animate) {
             isAnimating = true;
             linksGrid.classList.add('fade-out');
-            
-            setTimeout(function() {
-                renderLinksContent();
+            setTimeout(() => {
+                renderCards(filtered);
                 linksGrid.classList.remove('fade-out');
-                
-                setTimeout(function() {
-                    isAnimating = false;
-                }, 300);
-            }, 300);
+                isAnimating = false;
+            }, 200);
         } else {
-            renderLinksContent();
+            renderCards(filtered);
         }
     }
     
-    // 渲染链接内容
-    function renderLinksContent() {
-        if (!linksGrid) return;
-        
+    // 渲染卡片
+    function renderCards(links) {
         linksGrid.innerHTML = '';
+        visibleCards = [];
         
-        // 过滤链接
-        const filteredLinks = siteData.links.filter(function(link) {
-            const matchesCategory = !currentCategory || link.category === currentCategory;
-            const matchesSearch = !searchKeyword || 
-                link.name.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-                link.url.toLowerCase().includes(searchKeyword.toLowerCase());
-            return matchesCategory && matchesSearch;
-        });
-        
-        // 显示/隐藏链接区域
-        if (linksSection) {
-            linksSection.classList.toggle('active', !!(currentCategory || searchKeyword));
+        if (links.length === 0) {
+            linksGrid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-search"></i>
+                    <p>没有找到匹配的网站</p>
+                </div>`;
+            return;
         }
         
-        // 渲染卡片
-        filteredLinks.forEach(function(link, index) {
+        links.forEach((link, idx) => {
             const card = document.createElement('a');
-            card.className = 'link-card';
+            card.className = 'link-card' + (link.frequent ? ' frequent' : '');
             card.href = link.url;
             card.target = '_blank';
-            card.style.animationDelay = (index * 0.05) + 's';
+            card.rel = 'noopener noreferrer';
+            card.dataset.index = idx;
+            card.dataset.id = link.id;
+            card.style.animationDelay = `${idx * 0.04}s`;
             
-            card.innerHTML = 
-                '<div class="link-icon">' + getIconHTML(link.id) + '</div>' +
-                '<div class="link-name">' + link.name + '</div>';
+            card.innerHTML = `
+                <div class="link-icon">
+                    <img src="${getFavicon(link.url)}" alt="" class="link-favicon" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    ${getIconHTML(link.id)}
+                    ${link.frequent ? '<span class="frequent-badge" title="常用链接">★</span>' : ''}
+                </div>
+                <div class="link-name">${link.name}</div>
+                ${visitCounts[link.id] ? `<div class="visit-count" title="访问 ${visitCounts[link.id]} 次">${visitCounts[link.id]}次</div>` : ''}
+            `;
             
+            card.addEventListener('click', () => recordVisit(link.id));
             linksGrid.appendChild(card);
+            visibleCards.push(card);
         });
         
-        // 空状态
-        if (filteredLinks.length === 0 && (currentCategory || searchKeyword)) {
-            const emptyState = document.createElement('div');
-            emptyState.className = 'empty-state';
-            emptyState.innerHTML = '<i class="fas fa-search"></i><p>没有找到匹配的网站</p>';
-            linksGrid.appendChild(emptyState);
+        currentFocusIndex = -1;
+    }
+    
+    // 搜索建议
+    function updateSuggestions() {
+        const keyword = searchInput.value.trim().toLowerCase();
+        if (!keyword || keyword.length < 1) {
+            searchSuggestions.innerHTML = '';
+            searchSuggestions.style.display = 'none';
+            return;
+        }
+        
+        const matches = siteData.links.filter(l => 
+            l.name.toLowerCase().includes(keyword) || 
+            l.url.toLowerCase().includes(keyword)
+        ).slice(0, 5);
+        
+        if (matches.length === 0) {
+            searchSuggestions.innerHTML = '';
+            searchSuggestions.style.display = 'none';
+            return;
+        }
+        
+        searchSuggestions.innerHTML = matches.map(m => 
+            `<div class="suggestion-item" data-url="${m.url}">
+                <i class="${iconMap[m.id] || iconMap['default']}"></i>
+                <span>${m.name}</span>
+                <span class="suggestion-url">${m.url}</span>
+            </div>`
+        ).join('');
+        searchSuggestions.style.display = 'block';
+        
+        searchSuggestions.querySelectorAll('.suggestion-item').forEach(item => {
+            item.addEventListener('click', () => {
+                window.open(item.dataset.url, '_blank');
+                searchInput.value = '';
+                searchSuggestions.style.display = 'none';
+                renderLinks();
+            });
+        });
+    }
+    
+    // 键盘导航
+    function handleKeyboardNav(e) {
+        // / 聚焦搜索
+        if (e.key === '/' && document.activeElement !== searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+            return;
+        }
+        
+        // Escape 清空
+        if (e.key === 'Escape') {
+            if (settingsPanel?.classList.contains('active')) {
+                settingsPanel.classList.remove('active');
+                return;
+            }
+            if (searchInput.value) {
+                searchInput.value = '';
+                searchKeyword = '';
+                renderLinks();
+                searchInput.blur();
+                return;
+            }
+            if (currentCategory) {
+                currentCategory = '';
+                renderCategories();
+                renderLinks();
+                return;
+            }
+        }
+        
+        // 方向键导航
+        if (visibleCards.length === 0) return;
+        
+        const cols = Math.floor(linksGrid.offsetWidth / 180) || 5;
+        
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            currentFocusIndex = Math.min(currentFocusIndex + 1, visibleCards.length - 1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            currentFocusIndex = Math.max(currentFocusIndex - 1, 0);
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            currentFocusIndex = Math.min(currentFocusIndex + cols, visibleCards.length - 1);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            currentFocusIndex = Math.max(currentFocusIndex - cols, 0);
+        } else {
+            return;
+        }
+        
+        visibleCards.forEach((card, i) => {
+            card.classList.toggle('keyboard-focused', i === currentFocusIndex);
+        });
+        
+        if (currentFocusIndex >= 0 && visibleCards[currentFocusIndex]) {
+            visibleCards[currentFocusIndex].focus();
         }
     }
     
     // 事件监听
     function setupEventListeners() {
         // 分类点击
-        if (categoriesContainer) {
-            categoriesContainer.addEventListener('click', function(e) {
-                if (e.target.classList.contains('category-btn') && !isAnimating) {
-                    const newCategory = e.target.dataset.category;
-                    
-                    document.querySelectorAll('.category-btn').forEach(function(btn) {
-                        btn.classList.remove('active');
-                    });
-                    
-                    if (newCategory === currentCategory) {
-                        currentCategory = '';
-                    } else {
-                        currentCategory = newCategory;
-                        e.target.classList.add('active');
-                    }
-                    
-                    renderLinks();
-                }
-            });
-        }
+        categoriesContainer.addEventListener('click', e => {
+            const btn = e.target.closest('.category-btn');
+            if (!btn || isAnimating) return;
+            
+            const newCat = btn.dataset.category;
+            currentCategory = newCat === currentCategory ? '' : newCat;
+            renderCategories();
+            renderLinks();
+        });
         
         // 搜索
-        if (searchInput) {
-            searchInput.addEventListener('input', function(e) {
-                searchKeyword = e.target.value.trim();
+        searchInput.addEventListener('input', e => {
+            searchKeyword = e.target.value.trim().toLowerCase();
+            updateSuggestions();
+            renderLinks(true);
+        });
+        
+        searchInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                const val = searchInput.value.trim();
+                let url = val;
+                if (!/^https?:\/\//i.test(val)) {
+                    url = 'https://www.bing.com/search?q=' + encodeURIComponent(val);
+                }
+                try {
+                    new URL(url);
+                    window.open(url, '_blank');
+                } catch {
+                    window.open('https://www.bing.com/search?q=' + encodeURIComponent(val), '_blank');
+                }
+                searchInput.value = '';
+                searchSuggestions.style.display = 'none';
+                renderLinks();
+            }
+        });
+        
+        // 点击外部关闭建议
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.search-box')) {
+                searchSuggestions.style.display = 'none';
+            }
+        });
+        
+        // 设置面板
+        settingsToggle?.addEventListener('click', () => {
+            settingsPanel.classList.toggle('active');
+        });
+        
+        closeSettings?.addEventListener('click', () => {
+            settingsPanel.classList.remove('active');
+        });
+        
+        // 背景选项
+        document.querySelectorAll('.bg-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                applyBackgroundStyle(opt.dataset.bg);
+            });
+        });
+        
+        // 透明度滑块
+        bgOpacity?.addEventListener('input', e => {
+            const val = e.target.value;
+            bgOpacityValue.textContent = val + '%';
+            document.documentElement.style.setProperty('--background-opacity', val / 100);
+            settings.bgOpacity = parseInt(val);
+            saveSettings();
+        });
+        
+        // 模糊滑块
+        blurIntensity?.addEventListener('input', e => {
+            const val = e.target.value;
+            blurValueValue.textContent = val + 'px';
+            document.documentElement.style.setProperty('--blur-intensity', val + 'px');
+            settings.blurIntensity = parseInt(val);
+            saveSettings();
+        });
+        
+        // 排序
+        document.querySelectorAll('input[name="sort"]').forEach(radio => {
+            radio.addEventListener('change', e => {
+                sortOrder = e.target.value;
+                localStorage.setItem('nav-sort-order', sortOrder);
                 renderLinks();
             });
-            
-            searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    const value = searchInput.value.trim();
-                    if (value) {
-                        let url = value;
-                        if (!/^https?:\/\//i.test(value)) {
-                            url = 'https://www.bing.com/search?q=' + encodeURIComponent(value);
-                        }
-                        
-                        try {
-                            new URL(url);
-                            window.open(url, '_blank');
-                        } catch (err) {
-                            window.open('https://www.bing.com/search?q=' + encodeURIComponent(value), '_blank');
-                        }
-                        searchInput.value = '';
-                    }
-                }
-            });
-        }
+        });
+        
+        // 重置
+        resetSettings?.addEventListener('click', () => {
+            if (confirm('确定要重置所有设置吗？')) {
+                localStorage.removeItem('nav-settings');
+                localStorage.removeItem('nav-visit-counts');
+                localStorage.removeItem('nav-recent-visits');
+                localStorage.removeItem('nav-sort-order');
+                location.reload();
+            }
+        });
+        
+        // 键盘导航
+        document.addEventListener('keydown', handleKeyboardNav);
+    }
+    
+    // 自动暗黑模式
+    function detectDarkMode() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        const apply = (isDark) => {
+            document.documentElement.setAttribute('data-md-color-scheme', isDark ? 'slate' : 'default');
+        };
+        apply(prefersDark.matches);
+        prefersDark.addEventListener('change', e => apply(e.matches));
     }
     
     // 初始化
     function initHomepage() {
-        console.log('初始化主页功能');
+        console.log('🔧 初始化主页功能...');
+        
+        detectDarkMode();
+        applySettings();
+        updateClock();
+        setInterval(updateClock, 1000);
+        
         renderCategories();
         renderLinks(false);
         setupEventListeners();
-        console.log('主页功能初始化完成');
+        
+        console.log('✅ 主页导航 v2.0 初始化完成');
     }
     
-    // 执行
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initHomepage);
     } else {
