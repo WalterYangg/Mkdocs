@@ -94,18 +94,14 @@ const siteData = {
     // 格式: { id: '唯一标识', name: '显示名称', url: '网址', category: '分类ID' }
     links: [
         /* ---------- 我的应用 ---------- */
-        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.12:18789/', category: 'myapps' },
+        { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.16:18789/', category: 'myapps' },
         { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps' },
-        { id: 'bitwarden', name: 'Bitwarden', url: 'https://bit.sth.ink/', category: 'myapps' },
-        { id: 'oneapi', name: 'OneAPI', url: 'http://api.sth.ink/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
         { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
         { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
         { id: 'lib', name: 'Lib', url: 'http://lib.sth.ink/', category: 'myapps' },
         { id: 'jellyfin', name: 'Jellyfin', url: 'http://m.sth.ink/web/', category: 'myapps' },
         { id: 'npm', name: 'NPM', url: 'http://npm.sth.ink/', category: 'myapps' },
-        { id: 'stirlingpdf', name: 'StirlingPDF', url: 'http://pdf.sth.ink/', category: 'myapps' },
-        { id: 'lsky', name: '兰空图床', url: 'http://lsky.sth.ink/', category: 'myapps' },
     
         /* ---------- 在线工具 ---------- */
         { id: 'lkssite', name: 'LKSsite', url: 'https://lkssite.vip/', category: 'tools' },
@@ -153,17 +149,13 @@ const iconMap = {
 
     // 我的应用
     'openclaw': 'fas fa-robot',
-    'bitwarden': 'fas fa-key',
     'home': 'fas fa-home',
-    'oneapi': 'fas fa-code',
     'memos': 'fas fa-sticky-note',
     'openlist': 'fas fa-list',
     'NAS': 'fas fa-hdd',
     'lib': 'fas fa-book',
     'jellyfin': 'fas fa-film',
     'npm': 'fab fa-npm',
-    'stirlingpdf': 'fas fa-file-pdf',
-    'lsky': 'fas fa-image',
     
     // 在线工具
     'lkssite': 'fas fa-tools',
