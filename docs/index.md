@@ -95,7 +95,7 @@ const siteData = {
     links: [
         /* ---------- 我的应用 ---------- */
         { id: 'openclaw', name: 'Claw', url: 'http://192.168.10.16:18789/', category: 'myapps' },
-        { id: 'home', name: 'HA', url: 'http://192.168.10.12:8123/', category: 'myapps' },
+        { id: 'home', name: 'HA', url: 'http://192.168.10.16:8123/', category: 'myapps' },
         { id: 'memos', name: 'Memos', url: 'http://memos.sth.ink/', category: 'myapps' },
         { id: 'NAS', name: 'Nas', url: 'http://nas.sth.ink/', category: 'myapps' },
         { id: 'openlist', name: 'OpenList', url: 'http://pan.sth.ink/', category: 'myapps' },
